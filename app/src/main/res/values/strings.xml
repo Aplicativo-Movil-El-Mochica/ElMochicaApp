@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ElMochicaApp</string>
+    <string name="bienvenida">¡BIENVENIDOS!</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="pregunta">¿No tienes una cuenta?</string>
+    <string name="registrate">Regístrate</string>
+</resources>
