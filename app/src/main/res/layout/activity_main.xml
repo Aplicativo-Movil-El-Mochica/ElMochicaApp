@@ -27,7 +27,7 @@
     <ImageView
         android:id="@+id/logo_mochica"
         android:layout_width="295dp"
-        android:layout_height="97dp"
+        android:layout_height="100dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/log_mochica"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,8 +36,8 @@
 
     <Button
         android:id="@+id/btn_explore"
-        android:layout_width="302dp"
-        android:layout_height="61dp"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/brown"
         android:fontFamily="@font/nunito_bold"
@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
-        android:textColor="@color/white"
+        android:textColor="@color/brown"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

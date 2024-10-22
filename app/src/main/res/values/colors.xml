@@ -4,5 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="brown">#590B07</color>
     <color name="piel">#AC8583</color> <!-- degradado -->
+    <color name="gris">#67000000</color>
 
 </resources>

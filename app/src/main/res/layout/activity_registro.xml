@@ -5,13 +5,144 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.RegistroActivity">
+    tools:context=".ui.RegistroActivity"
+    android:background="@drawable/foreground_gradient">
 
-    <TextView
-        android:id="@+id/textView"
+    <!-- Logo del Mochica -->
+    <ImageView
+        android:id="@+id/logo_mochica"
+        android:layout_width="295dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/log_mochica"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Panel de Registro con Título y Componentes -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/registro_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ACA TE REGISTRAS PAPU"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="219dp" />
+        app:cardCornerRadius="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_mochica"
+        app:layout_constraintWidth_percent="0.85">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Título de Registro dentro del CardView -->
+            <TextView
+                android:id="@+id/text_register_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:text="@string/registrate_form"
+                android:textColor="@color/black"
+                android:textSize="27sp" />
+
+            <!-- Campo Nombre -->
+            <EditText
+                android:id="@+id/et_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/nunito_bold"
+                android:inputType="textPersonName"
+                android:hint="@string/nombre_form"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:autofillHints="name"/>
+
+            <!-- Campo Teléfono -->
+            <EditText
+                android:id="@+id/et_telefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/nunito_bold"
+                android:hint="@string/numero_form"
+                android:inputType="phone"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:autofillHints="phone"/>
+
+            <!-- Campo DNI -->
+            <EditText
+                android:id="@+id/et_dni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/nunito_bold"
+                android:hint="@string/dni_form"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:autofillHints="DNI"/>
+
+            <!-- Campo Correo Electrónico -->
+            <EditText
+                android:id="@+id/et_correo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/nunito_bold"
+                android:hint="@string/correo_form"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:autofillHints="emailAddress" />
+
+            <!-- Campo Contraseña -->
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/nunito_bold"
+                android:hint="@string/contrasena_form"
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:autofillHints="password"/>
+
+            <!-- Botón Registrar Datos -->
+            <Button
+                android:id="@+id/btn_registrar"
+                android:layout_width="280dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/brown"
+                android:fontFamily="@font/nunito_bold"
+                android:text="@string/registrar_boton"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintWidth_percent="0.7" />
+
+            <!-- Texto para iniciar sesión dentro del CardView -->
+            <TextView
+                android:id="@+id/text_iniciar_sesion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/brown"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
