@@ -1,7 +1,22 @@
 <resources>
+
+    !-- Inicio-->
     <string name="app_name">ElMochicaApp</string>
     <string name="bienvenida">¡BIENVENIDOS!</string>
     <string name="iniciar_sesion">Iniciar sesión</string>
     <string name="pregunta">¿No tienes una cuenta?</string>
     <string name="registrate">Regístrate</string>
+
+    !-- Registro-->
+    <string name="registrate_form">¡Regístrate!</string>
+    <string name="nombre_form">Nombre</string>
+    <string name="numero_form">Número teléfonico</string>
+    <string name="dni_form">DNI</string>
+    <string name="correo_form">Correo electrónico</string>
+    <string name="contrasena_form">Contraseña</string>
+    <string name="registrar_boton">Registrar Datos</string>
+    <string name="pregunta_form">¿Ya tienes una cuenta?</string>
+    <string name="iniciar_form">Iniciar Sesión</string>
+
+
 </resources>
