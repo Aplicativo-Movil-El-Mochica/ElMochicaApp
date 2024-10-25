@@ -12,8 +12,10 @@
     <string name="nombre_form">Nombre</string>
     <string name="numero_form">Número teléfonico</string>
     <string name="dni_form">DNI</string>
-    <string name="correo_form">Correo electrónico</string> //usado en activity_login.xml y registro.xml
-    <string name="contrasena_form">Contraseña</string> //usado en activity_login.xml y registro.xml
+    <string name="correo_form">Correo electrónico</string>
+    //usado en activity_login.xml y registro.xml
+    <string name="contrasena_form">Contraseña</string>
+    //usado en activity_login.xml y registro.xml
     <string name="registrar_boton">Registrar Datos</string>
     <string name="pregunta_form">¿Ya tienes una cuenta?</string>
     <string name="iniciar_form">Iniciar Sesión</string>
@@ -23,7 +25,8 @@
     <string name="iniciar_sesion_boton">Iniciar Sesión</string>
     <string name="iniciar_pregunta_form">¿No tienes una cuenta?</string>
     <string name="iniciar_registrate_form">Regístrate</string>
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
