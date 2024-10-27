@@ -25,8 +25,24 @@
     <string name="iniciar_sesion_boton">Iniciar Sesión</string>
     <string name="iniciar_pregunta_form">¿No tienes una cuenta?</string>
     <string name="iniciar_registrate_form">Regístrate</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    !-- Menu-->
+    <string name="entradas_cat">Entradas</string>
+    <string name="mariscos_cat">Mariscos</string>
+    <string name="criollos_cat">Criollos</string>
+    <string name="btn_pagar">Ir a Pagar</string>
+
+    !-- Cart-->
+    <string name="carrito">Carrito</string>
+    <string name="productos">Productos</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="btn_cart">Ir a pagar</string>
+
+    !-- Siderbar-->
+    <string name="opc1">Contáctanos</string>
+    <string name="opc2">Cerrar Sesión</string>
+
 
 
 </resources>

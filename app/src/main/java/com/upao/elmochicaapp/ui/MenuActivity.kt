@@ -1,10 +1,12 @@
 package com.upao.elmochicaapp.ui
 
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -26,10 +28,22 @@ class MenuActivity : AppCompatActivity() {
 
         drawerLayout = findViewById(R.id.drawer_layout)
         val menuIcon = findViewById<ImageView>(R.id.menu_icon)
+        val cartIcon = findViewById<ImageView>(R.id.cart_icon)
+        val btnCheckout = findViewById<Button>(R.id.btn_checkout)
 
         // Configurar apertura del Drawer al hacer clic en el icono de menú
         menuIcon.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        // Ir a CartActivity al hacer clic en el ícono del carrito
+        cartIcon.setOnClickListener {
+            startActivity(Intent(this, CartActivity::class.java))
+        }
+
+        // Ir a CartActivity al hacer clic en el botón de pago
+        btnCheckout.setOnClickListener {
+            startActivity(Intent(this, CartActivity::class.java))
         }
 
         // Configurar SearchView
@@ -78,6 +92,17 @@ class MenuActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        // Manejar el evento de retroceso utilizando OnBackPressedDispatcher
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    finish()
+                }
+            }
+        })
     }
 
     private fun loadFragment(category: String) {
