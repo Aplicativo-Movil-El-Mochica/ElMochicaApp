@@ -3,9 +3,9 @@
     <item
         android:id="@+id/menu_contact"
         android:icon="@drawable/wspp"
-        android:title="Contactanos" />
+        android:title="@string/opc1" />
     <item
         android:id="@+id/menu_logout"
         android:icon="@drawable/leave"
-        android:title="Cerrar Sesión" />
+        android:title="@string/opc2" />
 </menu>

@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/brown"
                 android:textColor="@color/white"
-                android:text="Entradas" />
+                android:text="@string/entradas_cat" />
 
             <Button
                 android:id="@+id/btn_seafood"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/brown"
                 android:textColor="@color/white"
-                android:text="Mariscos" />
+                android:text="@string/mariscos_cat" />
 
             <Button
                 android:id="@+id/btn_criollo"
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/brown"
                 android:textColor="@color/white"
-                android:text="Criollos" />
+                android:text="@string/criollos_cat" />
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -116,7 +116,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/nunito_bold"
-        android:text="Entradas"
+        android:text="@string/entradas_cat"
         android:textColor="@color/black"
         android:textSize="27sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +139,7 @@
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/brown"
         android:textColor="@color/white"
-        android:text="Ir a pagar"
+        android:text="@string/btn_pagar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
