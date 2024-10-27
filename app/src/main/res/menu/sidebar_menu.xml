@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_contact"
+        android:icon="@drawable/wspp"
+        android:title="Contactanos" />
+    <item
+        android:id="@+id/menu_logout"
+        android:icon="@drawable/leave"
+        android:title="Cerrar Sesión" />
+</menu>
