@@ -18,9 +18,7 @@ import com.upao.elmochicaapp.R
 class MenuActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var btnEntrees: Button
-    private lateinit var btnSeafood: Button
-    private lateinit var btnCriollo: Button
+    private lateinit var btnCheckout: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +27,7 @@ class MenuActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
         val menuIcon = findViewById<ImageView>(R.id.menu_icon)
         val cartIcon = findViewById<ImageView>(R.id.cart_icon)
-        val btnCheckout = findViewById<Button>(R.id.btn_checkout)
+        btnCheckout = findViewById(R.id.btn_checkout)
 
         // Configurar apertura del Drawer al hacer clic en el icono de menú
         menuIcon.setOnClickListener {
@@ -55,27 +53,7 @@ class MenuActivity : AppCompatActivity() {
         searchIcon.setColorFilter(ContextCompat.getColor(this, R.color.brown), PorterDuff.Mode.SRC_IN)
 
         // Configurar botones de categorías
-        btnEntrees = findViewById(R.id.btn_entrees)
-        btnSeafood = findViewById(R.id.btn_seafood)
-        btnCriollo = findViewById(R.id.btn_criollo)
-
-        // Cargar fragmento inicial
-        loadFragment("Entradas")
-
-        btnEntrees.setOnClickListener {
-            loadFragment("Entradas")
-            findViewById<TextView>(R.id.category_title).text = "Entradas"
-        }
-
-        btnSeafood.setOnClickListener {
-            loadFragment("Mariscos")
-            findViewById<TextView>(R.id.category_title).text = "Mariscos"
-        }
-
-        btnCriollo.setOnClickListener {
-            loadFragment("Criollos")
-            findViewById<TextView>(R.id.category_title).text = "Criollos"
-        }
+        setupCategoryButtons()
 
         // Configuración de elementos en el NavigationView
         val navigationView = findViewById<NavigationView>(R.id.navigation_view)
@@ -103,6 +81,28 @@ class MenuActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun setupCategoryButtons() {
+        val categoryMap = mapOf(
+            R.id.btn_entrees to "Entradas",
+            R.id.btn_criollo to "Platos Criollos",
+            R.id.btn_seafood to "Pescados y Mariscos",
+            R.id.btn_ceviches to "Ceviches",
+            R.id.btn_causas to "Causas",
+            R.id.btn_soups to "Sopas",
+            R.id.btn_salads to "Ensaladas",
+            R.id.btn_snacks to "Piqueos",
+            R.id.btn_desserts to "Postres de la Casa",
+            R.id.btn_specialties to "Otras Especialidades"
+        )
+
+        for ((buttonId, category) in categoryMap) {
+            findViewById<Button>(buttonId).setOnClickListener {
+                loadFragment(category)
+                findViewById<TextView>(R.id.category_title).text = category
+            }
+        }
     }
 
     private fun loadFragment(category: String) {

@@ -67,45 +67,102 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <!-- Filtros de categoría -->
-    <HorizontalScrollView
-        android:id="@+id/category_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/search_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <HorizontalScrollView
+            android:id="@+id/category_scroll"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/search_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <Button
-                android:id="@+id/btn_entrees"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/brown"
-                android:textColor="@color/white"
-                android:text="@string/entradas_cat" />
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_seafood"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/brown"
-                android:textColor="@color/white"
-                android:text="@string/mariscos_cat" />
+                <Button
+                    android:id="@+id/btn_entrees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@color/white"
+                    android:text="Entradas" />
 
-            <Button
-                android:id="@+id/btn_criollo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/brown"
-                android:textColor="@color/white"
-                android:text="@string/criollos_cat" />
-        </LinearLayout>
-    </HorizontalScrollView>
+                <Button
+                    android:id="@+id/btn_criollo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@color/white"
+                    android:text="Platos Criollos" />
+
+                <Button
+                    android:id="@+id/btn_seafood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@color/white"
+                    android:text="Pescados y Mariscos" />
+
+                <Button
+                    android:id="@+id/btn_ceviches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@color/white"
+                    android:text="Ceviches" />
+
+                <Button
+                    android:id="@+id/btn_causas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@color/white"
+                    android:text="Causas" />
+
+                <Button
+                    android:id="@+id/btn_soups"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@color/white"
+                    android:text="Sopas" />
+
+                <Button
+                    android:id="@+id/btn_salads"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@color/white"
+                    android:text="Ensaladas" />
+
+                <Button
+                    android:id="@+id/btn_snacks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@color/white"
+                    android:text="Piqueos" />
+
+                <Button
+                    android:id="@+id/btn_desserts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@color/white"
+                    android:text="Postres de la Casa" />
+
+                <Button
+                    android:id="@+id/btn_specialties"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@color/white"
+                    android:text="Otras Especialidades" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
 
     <!-- Título de la categoría seleccionada -->
     <TextView
