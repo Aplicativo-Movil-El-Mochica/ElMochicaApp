@@ -1,6 +1,8 @@
 package com.upao.elmochicaapp.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -53,5 +55,11 @@ class CartActivity : AppCompatActivity() {
             }
         })
 
+        // Configurar botón para ir a OrderActivity
+        val btnCheckout = findViewById<Button>(R.id.btn_checkout)
+        btnCheckout.setOnClickListener {
+            val intent = Intent(this, OrderActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
