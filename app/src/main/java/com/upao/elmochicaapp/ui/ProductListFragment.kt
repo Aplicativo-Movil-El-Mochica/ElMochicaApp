@@ -23,7 +23,7 @@ class ProductListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        category = arguments?.getString("CATEGORY") ?: "Entradas"
+        category = arguments?.getString("CATEGORY") ?: "ENTRADAS"
     }
 
     override fun onCreateView(
@@ -47,7 +47,7 @@ class ProductListFragment : Fragment() {
     private fun fetchProductsByCategory() {
         lifecycleScope.launch {
             try {
-                val response = ApiClient.apiService.getProductsByCategory(category)
+                val response = ApiClient.apiService2.getProductsByCategory(category)
                 if (response.isSuccessful) {
                     val products = response.body() ?: emptyList()
                     productAdapter.updateProducts(products)

@@ -25,6 +25,9 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
         setContentView(R.layout.activity_login)
 
         // Configurar texto clicable para "Registrarse"
@@ -41,6 +44,16 @@ class LoginActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
+                if (!email.contains("@")) {
+                    Toast.makeText(this, "Ingrese un correo Valido", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                if (password.length < 8) {
+                    Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
                 loginUser(email, password)
             } else {
                 Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
@@ -121,4 +134,6 @@ class LoginActivity : AppCompatActivity() {
             apply()
         }
     }
+
+
 }

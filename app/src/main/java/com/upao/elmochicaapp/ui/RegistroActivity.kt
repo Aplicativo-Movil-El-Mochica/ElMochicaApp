@@ -46,6 +46,30 @@ class RegistroActivity : AppCompatActivity() {
 
             // Validar que los campos no estén vacíos y convertir a Int donde sea necesario
             if (nombre.isNotEmpty() && telefono.isNotEmpty() && dni.isNotEmpty() && correo.isNotEmpty() && contrasena.isNotEmpty()) {
+
+                // Validación de teléfono: 9 dígitos
+                if (telefono.length != 9) {
+                    Toast.makeText(this, "Ingrese un Telefono Valido", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                // Validación de DNI: 8 dígitos
+                if (dni.length != 8) {
+                    Toast.makeText(this, "Ingrese un DNI Valido", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                // Validación de correo: debe contener '@'
+                if (!correo.contains("@")) {
+                    Toast.makeText(this, "Ingrese un correo Valido", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                if (contrasena.length < 8) {
+                    Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
                 try {
                     val telefonoInt = telefono.toInt()
                     val dniInt = dni.toInt()
@@ -110,14 +134,29 @@ class RegistroActivity : AppCompatActivity() {
             try {
                 val response = ApiClient.apiService.registerUser(user)
                 if (response.isSuccessful) {
+                    // Cuando el registro es exitoso (código 2xx)
                     Toast.makeText(this@RegistroActivity, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
                     // Redirigir a la pantalla de inicio de sesión o actividad principal
                     val intent = Intent(this@RegistroActivity, LoginActivity::class.java)
                     startActivity(intent)
+                } else if (response.code() == 409) {
+                    // Manejar el conflicto cuando el correo, DNI o teléfono ya están registrados
+                    val responseBody = response.errorBody()?.string() ?: ""
+
+                    if (responseBody.contains("email")) {
+                        Toast.makeText(this@RegistroActivity, "Este correo ya está registrado", Toast.LENGTH_SHORT).show()
+                    } else if (responseBody.contains("DNI")) {
+                        Toast.makeText(this@RegistroActivity, "Este DNI ya está registrado", Toast.LENGTH_SHORT).show()
+                    } else if (responseBody.contains("teléfono")) {
+                        Toast.makeText(this@RegistroActivity, "Este teléfono ya está registrado", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@RegistroActivity, "El usuario ya existe", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
+                    // Manejar otros códigos de error
                     Toast.makeText(this@RegistroActivity, "Error al registrar usuario", Toast.LENGTH_SHORT).show()
                 }
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(this@RegistroActivity, "Error en la conexión: ${e.message}", Toast.LENGTH_SHORT).show()
             }

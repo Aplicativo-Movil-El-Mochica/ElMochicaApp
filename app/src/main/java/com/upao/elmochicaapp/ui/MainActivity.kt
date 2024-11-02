@@ -1,5 +1,6 @@
 package com.upao.elmochicaapp.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
@@ -23,6 +24,13 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        if (isUserLoggedIn()) {
+            // Si hay un token, redirigir a la pantalla principal
+            startActivity(Intent(this, MenuActivity::class.java))
+            finish()
+            return
+        }
+
         // Ajuste de los insets de la ventana (mantener)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -36,6 +44,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+
+
+
 
         // Referencia al TextView
         val textView: TextView = findViewById(R.id.text_register)
@@ -77,5 +88,10 @@ class MainActivity : AppCompatActivity() {
         // Asignar el SpannableString al TextView
         textView.text = spannableString
         textView.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun isUserLoggedIn(): Boolean {
+        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        return sharedPref.getString("JWT_TOKEN", null) != null
     }
 }

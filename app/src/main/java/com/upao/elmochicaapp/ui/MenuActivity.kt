@@ -15,9 +15,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.upao.elmochicaapp.R
 
-class MenuActivity : AppCompatActivity() {
+class MenuActivity : BaseActivity() {
 
-    private lateinit var drawerLayout: DrawerLayout
     private lateinit var btnCheckout: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,14 +24,17 @@ class MenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
 
         drawerLayout = findViewById(R.id.drawer_layout)
-        val menuIcon = findViewById<ImageView>(R.id.menu_icon)
         val cartIcon = findViewById<ImageView>(R.id.cart_icon)
         btnCheckout = findViewById(R.id.btn_checkout)
 
-        // Configurar apertura del Drawer al hacer clic en el icono de menú
+        val menuIcon = findViewById<ImageView>(R.id.menu_icon)
         menuIcon.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+
+        drawerLayout = findViewById(R.id.drawer_layout)
+        val navigationView = findViewById<NavigationView>(R.id.navigation_view)
+        setupDrawer(drawerLayout, navigationView)
 
         // Ir a CartActivity al hacer clic en el ícono del carrito
         cartIcon.setOnClickListener {
@@ -52,24 +54,13 @@ class MenuActivity : AppCompatActivity() {
         val searchIcon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
         searchIcon.setColorFilter(ContextCompat.getColor(this, R.color.brown), PorterDuff.Mode.SRC_IN)
 
+        // Cargar "Entradas" al inicio
+        loadFragment("ENTRADAS")
+        findViewById<TextView>(R.id.category_title).text = "Entradas"
+
         // Configurar botones de categorías
         setupCategoryButtons()
 
-        // Configuración de elementos en el NavigationView
-        val navigationView = findViewById<NavigationView>(R.id.navigation_view)
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.menu_contact -> {
-                    // Acción al hacer clic en "Contactanos"
-                    true
-                }
-                R.id.menu_logout -> {
-                    // Acción al hacer clic en "Cerrar Sesión"
-                    true
-                }
-                else -> false
-            }
-        }
 
         // Manejar el evento de retroceso utilizando OnBackPressedDispatcher
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -85,25 +76,27 @@ class MenuActivity : AppCompatActivity() {
 
     private fun setupCategoryButtons() {
         val categoryMap = mapOf(
-            R.id.btn_entrees to "Entradas",
-            R.id.btn_criollo to "Platos Criollos",
-            R.id.btn_seafood to "Pescados y Mariscos",
-            R.id.btn_ceviches to "Ceviches",
-            R.id.btn_causas to "Causas",
-            R.id.btn_soups to "Sopas",
-            R.id.btn_salads to "Ensaladas",
-            R.id.btn_snacks to "Piqueos",
-            R.id.btn_desserts to "Postres de la Casa",
-            R.id.btn_specialties to "Otras Especialidades"
+            R.id.btn_entrees to Pair("ENTRADAS", "Entradas"),
+            R.id.btn_criollo to Pair("PLATOS_CRIOLLOS", "Platos Criollos"),
+            R.id.btn_seafood to Pair("PESCADOS_Y_MARISCOS", "Pescados y Mariscos"),
+            R.id.btn_ceviches to Pair("CEVICHES", "Ceviches"),
+            R.id.btn_causas to Pair("CAUSAS", "Causas"),
+            R.id.btn_soups to Pair("SOPAS", "Sopas"),
+            R.id.btn_salads to Pair("ENSALADAS", "Ensaladas"),
+            R.id.btn_snacks to Pair("PIQUEOS", "Piqueos"),
+            R.id.btn_desserts to Pair("POSTRES", "Postres"),
+            R.id.btn_specialties to Pair("OTRAS_ESPECIALIDADES", "Otras Especialidades")
         )
 
-        for ((buttonId, category) in categoryMap) {
+        for ((buttonId, categoryInfo) in categoryMap) {
             findViewById<Button>(buttonId).setOnClickListener {
-                loadFragment(category)
-                findViewById<TextView>(R.id.category_title).text = category
+                val (categoryCode, categoryDisplayName) = categoryInfo
+                loadFragment(categoryCode)
+                findViewById<TextView>(R.id.category_title).text = categoryDisplayName
             }
         }
     }
+
 
     private fun loadFragment(category: String) {
         val fragment = ProductListFragment.newInstance(category)

@@ -71,7 +71,7 @@
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/nunito_bold"
                 android:hint="@string/numero_form"
-                android:inputType="phone"
+                android:inputType="number"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:autofillHints="phone"/>

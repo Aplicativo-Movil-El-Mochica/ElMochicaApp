@@ -18,6 +18,6 @@ interface ApiService {
     @POST("/user/login")
     suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse> // Login y obtención del JWT
 
-    @GET("/productos/{category}")
+    @GET("/api/products/filterByCategory/{category}")
     suspend fun getProductsByCategory(@Path("category") category: String): Response<List<Product>>
 }
