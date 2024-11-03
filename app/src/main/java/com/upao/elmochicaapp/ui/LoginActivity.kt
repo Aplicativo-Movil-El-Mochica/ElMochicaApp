@@ -60,15 +60,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Al hacer clic en el botón de "Pruebas"
-        // Referencia al botón de prueba
-        val pruebaButton = findViewById<Button>(R.id.button)
-
-        // Configurar el listener para redirigir a MenuActivity
-        pruebaButton.setOnClickListener {
-            val intent = Intent(this, MenuActivity::class.java)
-            startActivity(intent)
-        }
 
     }
 
