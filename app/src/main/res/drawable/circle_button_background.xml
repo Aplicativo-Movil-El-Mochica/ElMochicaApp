@@ -1,0 +1,5 @@
+<!-- circle_button_background.xml en res/drawable -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white" /> <!-- Cambia este color según el diseño -->
+    <corners android:radius="5dp" />
+</shape>

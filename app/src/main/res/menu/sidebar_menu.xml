@@ -3,6 +3,7 @@
     <item
         android:id="@+id/menu_contact"
         android:icon="@drawable/wspp"
+        android:iconTint="@color/verde"
         android:title="@string/opc1" />
     <item
         android:id="@+id/menu_logout"

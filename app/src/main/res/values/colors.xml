@@ -5,5 +5,7 @@
     <color name="brown">#590B07</color>
     <color name="piel">#AC8583</color> <!-- degradado -->
     <color name="gris">#67000000</color>
+    <color name="verde">#16B947</color>
+    <color name="piel2">#33590B07</color> <!-- item menu -->
 
 </resources>

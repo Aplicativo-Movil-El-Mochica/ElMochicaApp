@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.upao.elmochicaapp.R
 
 class OrderActivity : AppCompatActivity() {
@@ -19,6 +20,15 @@ class OrderActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
+
+        // Configurar la Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar2)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed() // Volver a la actividad anterior con el nuevo método
+        }
 
         sectionRecojo = findViewById(R.id.section_recojo)
         sectionDelivery = findViewById(R.id.section_delivery)

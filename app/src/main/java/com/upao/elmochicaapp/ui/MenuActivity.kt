@@ -7,11 +7,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.upao.elmochicaapp.R
 
@@ -23,36 +21,32 @@ class MenuActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-        drawerLayout = findViewById(R.id.drawer_layout)
-        val cartIcon = findViewById<ImageView>(R.id.cart_icon)
-        btnCheckout = findViewById(R.id.btn_checkout)
-
-        val menuIcon = findViewById<ImageView>(R.id.menu_icon)
-        menuIcon.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
-
+        // Inicializar drawerLayout y navigationView
         drawerLayout = findViewById(R.id.drawer_layout)
         val navigationView = findViewById<NavigationView>(R.id.navigation_view)
         setupDrawer(drawerLayout, navigationView)
 
-        // Ir a CartActivity al hacer clic en el ícono del carrito
+        // Inicializar los botones y componentes de la UI
+        btnCheckout = findViewById(R.id.btn_checkout)
+        val cartIcon = findViewById<ImageView>(R.id.cart_icon)
+        val menuIcon = findViewById<ImageView>(R.id.menu_icon)
+
+        // Configurar el icono de menú para abrir el drawer
+        menuIcon.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        // Navegar a CartActivity al hacer clic en el ícono del carrito o en el botón de pago
         cartIcon.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
         }
-
-        // Ir a CartActivity al hacer clic en el botón de pago
         btnCheckout.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
         }
 
         // Configurar SearchView
         val searchView = findViewById<SearchView>(R.id.search_view)
-        val hintColor = searchView.findViewById<TextView>(androidx.appcompat.R.id.search_src_text)
-        hintColor.setTextColor(ContextCompat.getColor(this, R.color.brown))
-        hintColor.setHintTextColor(ContextCompat.getColor(this, R.color.brown))
-        val searchIcon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
-        searchIcon.setColorFilter(ContextCompat.getColor(this, R.color.brown), PorterDuff.Mode.SRC_IN)
+        configureSearchView(searchView)
 
         // Cargar "Entradas" al inicio
         loadFragment("ENTRADAS")
@@ -60,7 +54,6 @@ class MenuActivity : BaseActivity() {
 
         // Configurar botones de categorías
         setupCategoryButtons()
-
 
         // Manejar el evento de retroceso utilizando OnBackPressedDispatcher
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -74,6 +67,14 @@ class MenuActivity : BaseActivity() {
         })
     }
 
+    private fun configureSearchView(searchView: SearchView) {
+        val hintColor = searchView.findViewById<TextView>(androidx.appcompat.R.id.search_src_text)
+        hintColor.setTextColor(ContextCompat.getColor(this, R.color.brown))
+        hintColor.setHintTextColor(ContextCompat.getColor(this, R.color.brown))
+        val searchIcon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
+        searchIcon.setColorFilter(ContextCompat.getColor(this, R.color.brown), PorterDuff.Mode.SRC_IN)
+    }
+
     private fun setupCategoryButtons() {
         val categoryMap = mapOf(
             R.id.btn_entrees to Pair("ENTRADAS", "Entradas"),
@@ -84,7 +85,7 @@ class MenuActivity : BaseActivity() {
             R.id.btn_soups to Pair("SOPAS", "Sopas"),
             R.id.btn_salads to Pair("ENSALADAS", "Ensaladas"),
             R.id.btn_snacks to Pair("PIQUEOS", "Piqueos"),
-            R.id.btn_desserts to Pair("POSTRES", "Postres"),
+            R.id.btn_desserts to Pair("POSTRES", "Postres de la Casa"),
             R.id.btn_specialties to Pair("OTRAS_ESPECIALIDADES", "Otras Especialidades")
         )
 
@@ -96,7 +97,6 @@ class MenuActivity : BaseActivity() {
             }
         }
     }
-
 
     private fun loadFragment(category: String) {
         val fragment = ProductListFragment.newInstance(category)

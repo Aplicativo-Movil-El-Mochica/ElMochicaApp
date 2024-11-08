@@ -26,8 +26,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
         setContentView(R.layout.activity_login)
 
         // Configurar texto clicable para "Registrarse"
@@ -99,14 +97,17 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     val token = loginResponse?.token
-                    if (token != null) {
-                        saveToken(token)
+                    val dni = loginResponse?.dni
+
+                    if (token != null && dni != null) {
+                        saveTokenAndDni(token, dni)
                         Toast.makeText(this@LoginActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                        // Redirige al usuario a la pantalla principal o a la pantalla de inicio de sesión
+
+                        // Redirige al usuario a la pantalla principal
                         startActivity(Intent(this@LoginActivity, MenuActivity::class.java))
                         finish()
                     } else {
-                        Toast.makeText(this@LoginActivity, "Error al obtener token", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, "Error al obtener token o DNI", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Toast.makeText(this@LoginActivity, "Correo o contraseña incorrectas", Toast.LENGTH_SHORT).show()
@@ -118,13 +119,14 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveToken(token: String) {
+    private fun saveTokenAndDni(token: String, dni: Int) {
+        println("Almacenando DNI: $dni")
         val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("JWT_TOKEN", token)
+            putInt("USER_DNI", dni)
             apply()
         }
     }
-
 
 }
