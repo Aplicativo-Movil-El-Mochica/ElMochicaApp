@@ -25,4 +25,14 @@ object ApiClient {
             .build()
             .create(ApiService::class.java)
     }
+
+    private const val BASE_URL3 = "http://3.142.238.253:8081/" // Reemplaza con la URL base de tu API
+
+    val apiService3: ApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL3)
+            .addConverterFactory(GsonConverterFactory.create()) // Convierte JSON a objetos Kotlin usando Gson
+            .build()
+            .create(ApiService::class.java)
+    }
 }
