@@ -1,5 +1,4 @@
 package com.upao.elmochicaapp.ui
-
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +15,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+//Importaciones Add
+import android.net.Uri
+import java.net.URLEncoder
+
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -52,7 +55,28 @@ open class BaseActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_contact -> {
-                    Toast.makeText(this, "Contacto", Toast.LENGTH_SHORT).show()
+                    // Número de teléfono con código de país, sin "+" ni espacios
+                    val phoneNumberWithCountryCode = "51949494754" // Reemplaza con el número deseado
+                    val message = "Hola, me gustaría hacer un pedido."
+
+                    val url = "https://api.whatsapp.com/send?phone=$phoneNumberWithCountryCode&text=${URLEncoder.encode(message, "UTF-8")}"
+
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.setPackage("com.whatsapp")
+                        intent.data = Uri.parse(url)
+                        if (intent.resolveActivity(packageManager) != null) {
+                            startActivity(intent)
+                        } else {
+                            // WhatsApp no está instalado
+                            Toast.makeText(this, "WhatsApp no está instalado", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Toast.makeText(this, "Error al abrir WhatsApp", Toast.LENGTH_SHORT).show()
+                    }
+
+                    drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
                 R.id.menu_logout -> {
@@ -63,11 +87,9 @@ open class BaseActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
     }
 
-
-    // Método para obtener el nombre del usuario
-// Método para obtener el nombre del usuario
 // Método para obtener el nombre del usuario
     private fun fetchUserName(dni: Int, callback: (String) -> Unit) {
         if (dni == 0) {
@@ -114,8 +136,6 @@ open class BaseActivity : AppCompatActivity() {
             }
         }
     }
-
-
 
 
     // Método para cerrar sesión
