@@ -2,6 +2,7 @@ package com.upao.elmochicaapp.api.apiEndpoints
 
 import com.upao.elmochicaapp.models.Product
 import com.upao.elmochicaapp.models.User
+import com.upao.elmochicaapp.models.requestModels.CartItemRequest
 import com.upao.elmochicaapp.models.requestModels.LoginRequest
 import com.upao.elmochicaapp.models.responseModels.LoginResponse
 import com.upao.elmochicaapp.models.responseModels.UserResponse
@@ -28,4 +29,11 @@ interface ApiService {
 
     @GET("/api/products/filterByCategory/{category}")
     suspend fun getProductsByCategory(@Path("category") category: String): Response<List<Product>>
+
+    @POST("/api/cart/aggproduct")
+    suspend fun addProductToCart(
+        @Body cartItem: CartItemRequest
+    ): Response<Void>
+
+
 }
