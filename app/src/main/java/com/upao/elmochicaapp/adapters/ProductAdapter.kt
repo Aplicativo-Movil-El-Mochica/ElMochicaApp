@@ -13,8 +13,22 @@ class ProductAdapter(
     private val onAddToCart: (Product) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
+    private var filteredProducts = products.toList()
+
     fun updateProducts(newProducts: List<Product>) {
         products = newProducts
+        filteredProducts = products.toList()
+        notifyDataSetChanged()
+    }
+
+    fun filter(query: String) {
+        filteredProducts = if (query.isEmpty()) {
+            products
+        } else {
+            products.filter {
+                it.productName.contains(query, ignoreCase = true)
+            }
+        }
         notifyDataSetChanged()
     }
 
@@ -30,12 +44,13 @@ class ProductAdapter(
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val product = products[position]
+        val product = filteredProducts[position]
         holder.productName.text = product.productName
         holder.productDescription.text = product.description
         holder.productPrice.text = "S/ ${product.price}"
         holder.itemView.setOnClickListener { onAddToCart(product) }
     }
 
-    override fun getItemCount(): Int = products.size
+    override fun getItemCount(): Int = filteredProducts.size
 }
+

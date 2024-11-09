@@ -45,9 +45,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
-
         // Referencia al TextView
         val textView: TextView = findViewById(R.id.text_register)
 

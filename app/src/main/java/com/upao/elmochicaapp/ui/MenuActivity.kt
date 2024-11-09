@@ -73,7 +73,24 @@ class MenuActivity : BaseActivity() {
         hintColor.setHintTextColor(ContextCompat.getColor(this, R.color.brown))
         val searchIcon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
         searchIcon.setColorFilter(ContextCompat.getColor(this, R.color.brown), PorterDuff.Mode.SRC_IN)
+
+        // Listener para cambios en el texto del SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // No necesitamos hacer nada en el submit
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                if (fragment is ProductListFragment) {
+                    fragment.filterProducts(newText ?: "")
+                }
+                return true
+            }
+        })
     }
+
 
     private fun setupCategoryButtons() {
         val categoryMap = mapOf(

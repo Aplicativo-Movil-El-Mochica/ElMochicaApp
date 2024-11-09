@@ -61,6 +61,10 @@ class ProductListFragment : Fragment() {
         }
     }
 
+    fun filterProducts(query: String) {
+        productAdapter.filter(query)
+    }
+
     companion object {
         fun newInstance(category: String): ProductListFragment {
             val fragment = ProductListFragment()
@@ -71,3 +75,4 @@ class ProductListFragment : Fragment() {
         }
     }
 }
+
