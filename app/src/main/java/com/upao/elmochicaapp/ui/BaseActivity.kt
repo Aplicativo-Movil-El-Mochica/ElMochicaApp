@@ -135,6 +135,11 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+    protected fun getUserId(): String? {
+        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        return sharedPref.getString("USER_ID", null)
+    }
+
     // Método para cerrar sesión
     private fun logoutUser() {
         val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)

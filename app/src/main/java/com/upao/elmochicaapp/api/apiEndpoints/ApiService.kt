@@ -1,5 +1,6 @@
 package com.upao.elmochicaapp.api.apiEndpoints
 
+import com.upao.elmochicaapp.models.CartProduct
 import com.upao.elmochicaapp.models.Product
 import com.upao.elmochicaapp.models.User
 import com.upao.elmochicaapp.models.requestModels.CartItemRequest
@@ -15,6 +16,7 @@ import retrofit2.http.Path
 
 interface ApiService {
 
+    // Endpoints para usuarios
     @POST("/user/register")
     suspend fun registerUser(@Body user: User): Response<Void> // O la respuesta que devuelva tu API
 
@@ -27,13 +29,17 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Response<UserResponse>
 
+    // Endpoints para productos
     @GET("/api/products/filterByCategory/{category}")
     suspend fun getProductsByCategory(@Path("category") category: String): Response<List<Product>>
 
+    // Endpoints para carrito
     @POST("/api/cart/aggproduct")
     suspend fun addProductToCart(
         @Body cartItem: CartItemRequest
     ): Response<Void>
 
+    @GET("/api/cart/obtenerCarrito/{userId}")
+    suspend fun getCartProducts(@Path("userId") userId: String): Response<List<CartProduct>>
 
 }
