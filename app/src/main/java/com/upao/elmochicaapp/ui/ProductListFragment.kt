@@ -1,5 +1,6 @@
 package com.upao.elmochicaapp.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.upao.elmochicaapp.R
 import com.upao.elmochicaapp.adapters.ProductAdapter
 import com.upao.elmochicaapp.api.apiClient.ApiClient
 import com.upao.elmochicaapp.models.Product
+import com.upao.elmochicaapp.models.requestModels.CartItemRequest
 import kotlinx.coroutines.launch
 
 class ProductListFragment : Fragment() {
@@ -34,7 +36,7 @@ class ProductListFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_view_products)
         recyclerView.layoutManager = LinearLayoutManager(context)
         productAdapter = ProductAdapter(emptyList()) { product ->
-            // Lógica para agregar al carrito
+            addProductToCart(product) // Llamada para agregar el producto al carrito
         }
         recyclerView.adapter = productAdapter
 
@@ -59,6 +61,45 @@ class ProductListFragment : Fragment() {
                 Toast.makeText(context, "Error en la conexión: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun addProductToCart(product: Product) {
+        val sharedPref = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val userId = sharedPref.getString("USER_ID", null)
+        if (userId == null) {
+            Toast.makeText(context, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val cartItemRequest = CartItemRequest(
+            productName = product.productName,
+            amount = 1, // Modifica si deseas solicitar una cantidad específica
+            price = product.price,
+            userId = userId
+        )
+
+        // Confirma que los datos se están enviando
+        println("Enviando datos al carrito: $cartItemRequest")
+        println("USER_ID desde SharedPreferences: $userId")
+
+        lifecycleScope.launch {
+            try {
+                val response = ApiClient.apiService3.addProductToCart(cartItemRequest)
+                if (response.isSuccessful) {
+                    Toast.makeText(context, "${product.productName} agregado al carrito", Toast.LENGTH_SHORT).show()
+                } else {
+                    println("Error al agregar al carrito, código de respuesta: ${response.code()}")
+                    Toast.makeText(context, "Error al agregar al carrito", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(context, "Error en la conexión: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun filterProducts(query: String) {
+        productAdapter.filter(query)
     }
 
     companion object {
