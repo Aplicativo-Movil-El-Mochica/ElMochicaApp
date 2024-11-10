@@ -5,6 +5,7 @@ import com.upao.elmochicaapp.models.Product
 import com.upao.elmochicaapp.models.User
 import com.upao.elmochicaapp.models.requestModels.CartItemRequest
 import com.upao.elmochicaapp.models.requestModels.LoginRequest
+import com.upao.elmochicaapp.models.requestModels.ModifyCartRequest
 import com.upao.elmochicaapp.models.responseModels.LoginResponse
 import com.upao.elmochicaapp.models.responseModels.UserResponse
 import retrofit2.Response
@@ -12,6 +13,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ApiService {
@@ -42,4 +44,11 @@ interface ApiService {
     @GET("/api/cart/obtenerCarrito/{userId}")
     suspend fun getCartProducts(@Path("userId") userId: String): Response<List<CartProduct>>
 
+    @GET("/api/cart/getsubtotal/{userId}")
+    suspend fun getSubtotal(@Path("userId") userId: String): Response<Int>
+
+    @PUT("/api/cart/modificarCarrito")
+    suspend fun modifyCartProduct(
+        @Body requestBody: ModifyCartRequest
+    ): Response<Void>
 }
