@@ -36,22 +36,18 @@ class CartAdapter(
 
         // Configura la vista con los datos del producto
         holder.productName.text = product.productName
-        holder.productPrice.text = "S/ ${product.price * product.amount}" // Muestra precio total calculado en tiempo real
+        holder.productPrice.text = "S/ ${product.priceUnit * product.amount}" // Muestra el precio total basado en priceUnit
         holder.productAmount.text = product.amount.toString()
 
         // Configura los botones de aumentar y disminuir cantidad
         holder.decreaseButton.setOnClickListener {
             if (product.amount > 1) {
                 onDecrease(product)
-                holder.productAmount.text = product.amount.toString()
-                holder.productPrice.text = "S/ ${product.price * product.amount}" // Actualiza el precio total basado en la cantidad
             }
         }
 
         holder.increaseButton.setOnClickListener {
             onIncrease(product)
-            holder.productAmount.text = product.amount.toString()
-            holder.productPrice.text = "S/ ${product.price * product.amount}" // Actualiza el precio total basado en la cantidad
         }
     }
 

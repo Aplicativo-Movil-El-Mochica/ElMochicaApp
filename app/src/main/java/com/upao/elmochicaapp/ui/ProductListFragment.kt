@@ -74,7 +74,7 @@ class ProductListFragment : Fragment() {
         val cartItemRequest = CartItemRequest(
             productName = product.productName,
             amount = 1, // Modifica si deseas solicitar una cantidad específica
-            price = product.price,
+            priceUnit = product.price,
             userId = userId
         )
 
