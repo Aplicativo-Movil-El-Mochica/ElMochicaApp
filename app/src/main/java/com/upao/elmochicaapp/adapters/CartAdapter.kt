@@ -34,26 +34,32 @@ class CartAdapter(
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val product = cartProducts[position]
 
+        // Asegúrate de calcular siempre usando el precio unitario
+        val unitPrice = product.price / product.amount
+
         // Configura la vista con los datos del producto
         holder.productName.text = product.productName
-        holder.productPrice.text = "S/ ${product.price * product.amount}" // Muestra precio total calculado en tiempo real
+        holder.productPrice.text = "S/ ${unitPrice * product.amount}" // Calcula el precio total usando el precio unitario
         holder.productAmount.text = product.amount.toString()
 
         // Configura los botones de aumentar y disminuir cantidad
         holder.decreaseButton.setOnClickListener {
             if (product.amount > 1) {
-                onDecrease(product)
+                product.amount -= 1
                 holder.productAmount.text = product.amount.toString()
-                holder.productPrice.text = "S/ ${product.price * product.amount}" // Actualiza el precio total basado en la cantidad
+                holder.productPrice.text = "S/ ${unitPrice * product.amount}" // Actualiza el precio total basado en la cantidad
+                onDecrease(product) // Notifica el cambio al backend
             }
         }
 
         holder.increaseButton.setOnClickListener {
-            onIncrease(product)
+            product.amount += 1
             holder.productAmount.text = product.amount.toString()
-            holder.productPrice.text = "S/ ${product.price * product.amount}" // Actualiza el precio total basado en la cantidad
+            holder.productPrice.text = "S/ ${unitPrice * product.amount}" // Actualiza el precio total basado en la cantidad
+            onIncrease(product) // Notifica el cambio al backend
         }
     }
+
 
     override fun getItemCount(): Int = cartProducts.size
 }
