@@ -36,12 +36,10 @@ class CartAdapter(
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val product = cartProducts[position]
 
-        // Configura la vista con los datos del producto
         holder.productName.text = product.productName
-        holder.productPrice.text = "S/ ${product.priceUnit * product.amount}" // Muestra el precio total basado en priceUnit
+        holder.productPrice.text = "S/ ${product.priceUnit * product.amount}" // Calcula el precio total en tiempo real
         holder.productAmount.text = product.amount.toString()
 
-        // Configura los botones de aumentar y disminuir cantidad
         holder.decreaseButton.setOnClickListener {
             if (product.amount > 1) {
                 onDecrease(product)
