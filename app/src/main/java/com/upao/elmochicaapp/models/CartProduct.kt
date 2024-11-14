@@ -9,3 +9,4 @@ data class CartProduct(
     val availability: Int
 )
 
+

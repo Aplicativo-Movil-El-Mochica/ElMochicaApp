@@ -50,7 +50,7 @@
                 android:textColor="@color/black"
                 android:textSize="27sp" />
 
-            <!-- Campo Nombre -->
+            <!-- Campo Nombre linea 65:solo texto -->
             <EditText
                 android:id="@+id/et_nombre"
                 android:layout_width="match_parent"
@@ -61,6 +61,8 @@
                 android:hint="@string/nombre_form"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:maxLines="1"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéíóúÁÉÍÓÚñÑ "
                 android:autofillHints="name"/>
 
             <!-- Campo Teléfono -->
@@ -72,6 +74,7 @@
                 android:fontFamily="@font/nunito_bold"
                 android:hint="@string/numero_form"
                 android:inputType="number"
+                android:maxLength="9"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:autofillHints="phone"/>
@@ -84,6 +87,7 @@
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/nunito_bold"
                 android:hint="@string/dni_form"
+                android:maxLength="8"
                 android:inputType="number"
                 android:textColor="@color/black"
                 android:textSize="20sp"
