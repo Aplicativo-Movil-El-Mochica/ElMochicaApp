@@ -14,7 +14,8 @@ import com.upao.elmochicaapp.models.CartProduct
 class CartAdapter(
     private val cartProducts: List<CartProduct>,
     private val onIncrease: (CartProduct) -> Unit,
-    private val onDecrease: (CartProduct) -> Unit
+    private val onDecrease: (CartProduct) -> Unit,
+    private val onDelete: (CartProduct) -> Unit
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     inner class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -24,6 +25,7 @@ class CartAdapter(
         val productAmount: TextView = view.findViewById(R.id.product_amount)
         val decreaseButton: ImageButton = view.findViewById(R.id.decrease_button)
         val increaseButton: ImageButton = view.findViewById(R.id.increase_button)
+        val deleteButton: ImageButton = view.findViewById(R.id.delete_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
@@ -48,6 +50,10 @@ class CartAdapter(
 
         holder.increaseButton.setOnClickListener {
             onIncrease(product)
+        }
+
+        holder.deleteButton.setOnClickListener {
+            onDelete(product) // Llama a la función de eliminación
         }
     }
 

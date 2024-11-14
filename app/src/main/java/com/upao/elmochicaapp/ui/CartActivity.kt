@@ -1,7 +1,9 @@
 // CartActivity.kt
 package com.upao.elmochicaapp.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -22,6 +24,7 @@ class CartActivity : BaseActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var tvProductsLabel: TextView
     private lateinit var subtotalTextView: TextView
+    private lateinit var checkoutButton: Button
     private val cartProducts = mutableListOf<CartProduct>()
     private lateinit var cartAdapter: CartAdapter
 
@@ -38,17 +41,16 @@ class CartActivity : BaseActivity() {
         recyclerView = findViewById(R.id.recycler_view_cart)
         tvProductsLabel = findViewById(R.id.tv_products_label)
         subtotalTextView = findViewById(R.id.subtotal_amount)
+        checkoutButton = findViewById(R.id.btn_checkout)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         cartAdapter = CartAdapter(cartProducts,
             onIncrease = { product -> modifyProductQuantity(product, "sumar") },
             onDecrease = { product ->
-                if (product.amount > 1) {
-                    modifyProductQuantity(product, "restar")
-                } else {
-                    Toast.makeText(this, "La cantidad mínima es 1", Toast.LENGTH_SHORT).show()
-                }
-            }
+                if (product.amount > 1) modifyProductQuantity(product, "restar")
+                else Toast.makeText(this, "La cantidad mínima es 1", Toast.LENGTH_SHORT).show()
+            },
+            onDelete = { product -> deleteProductFromCart(product) } // Conexión del botón eliminar
         )
         recyclerView.adapter = cartAdapter
 
@@ -58,6 +60,36 @@ class CartActivity : BaseActivity() {
             fetchSubtotal(userId)
         } else {
             Toast.makeText(this, "Error: usuario no encontrado", Toast.LENGTH_SHORT).show()
+        }
+
+        checkoutButton.setOnClickListener {
+            val intent = Intent(this, OrderActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun deleteProductFromCart(product: CartProduct) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService3.deleteProductFromCart(product.id) // Llama al endpoint DELETE
+                if (response.isSuccessful) {
+                    withContext(Dispatchers.Main) {
+                        cartProducts.remove(product)
+                        cartAdapter.notifyDataSetChanged()
+                        updateSubtotalView()
+                        updateProductsLabel(cartProducts.size)
+                        Toast.makeText(this@CartActivity, "${product.productName} eliminado del carrito", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@CartActivity, "Error al eliminar el producto", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@CartActivity, "Error en la conexión: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -143,4 +175,5 @@ class CartActivity : BaseActivity() {
         val subtotal = cartProducts.sumOf { it.priceUnit * it.amount }
         subtotalTextView.text = "S/ $subtotal.00"
     }
+
 }
