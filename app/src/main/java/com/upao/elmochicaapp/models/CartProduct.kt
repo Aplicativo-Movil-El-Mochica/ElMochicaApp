@@ -5,7 +5,7 @@ data class CartProduct(
     val id: String,
     val productName: String,
     var amount: Int,
-    val price: Double,
+    var priceUnit: Int, // Precio unitario del producto
     val availability: Int
 )
 

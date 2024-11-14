@@ -11,6 +11,7 @@ import com.upao.elmochicaapp.R
 import com.upao.elmochicaapp.adapters.CartAdapter
 import com.upao.elmochicaapp.api.apiClient.ApiClient
 import com.upao.elmochicaapp.models.CartProduct
+import com.upao.elmochicaapp.models.requestModels.CartItemRequest
 import com.upao.elmochicaapp.models.requestModels.ModifyCartRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -72,6 +73,7 @@ class CartActivity : BaseActivity() {
                         cartProducts.addAll(fetchedProducts)
                         cartAdapter.notifyDataSetChanged()
                         updateProductsLabel(cartProducts.size)
+                        updateSubtotalView() // Calcula el subtotal inicial
                     }
                 } else {
                     withContext(Dispatchers.Main) {
@@ -113,7 +115,6 @@ class CartActivity : BaseActivity() {
     }
 
     private fun modifyProductQuantity(product: CartProduct, action: String) {
-        // Siempre envía newamount = 1 y usa la acción para indicar si sumamos o restamos
         val request = ModifyCartRequest(cartProductId = product.id, newamount = 1, action = action)
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -121,14 +122,10 @@ class CartActivity : BaseActivity() {
                 val response = ApiClient.apiService3.modifyCartProduct(request)
                 if (response.isSuccessful) {
                     withContext(Dispatchers.Main) {
-                        // Solo después de recibir una respuesta exitosa, ajustamos la cantidad localmente
-                        if (action == "sumar") {
-                            product.amount += 1
-                        } else if (action == "restar" && product.amount > 1) {
-                            product.amount -= 1
-                        }
-                        cartAdapter.notifyDataSetChanged()
-                        fetchSubtotal(getUserId() ?: "")
+                        // Actualiza la cantidad en tiempo real
+                        product.amount += if (action == "sumar") 1 else -1
+                        cartAdapter.notifyItemChanged(cartProducts.indexOf(product))
+                        updateSubtotalView() // Actualiza el subtotal
                     }
                 } else {
                     withContext(Dispatchers.Main) {
@@ -141,5 +138,10 @@ class CartActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    private fun updateSubtotalView() {
+        val subtotal = cartProducts.sumOf { it.priceUnit * it.amount }
+        subtotalTextView.text = "S/ $subtotal.00"
     }
 }
