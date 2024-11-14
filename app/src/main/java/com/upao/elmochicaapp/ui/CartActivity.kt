@@ -11,6 +11,7 @@ import com.upao.elmochicaapp.R
 import com.upao.elmochicaapp.adapters.CartAdapter
 import com.upao.elmochicaapp.api.apiClient.ApiClient
 import com.upao.elmochicaapp.models.CartProduct
+import com.upao.elmochicaapp.models.requestModels.CartItemRequest
 import com.upao.elmochicaapp.models.requestModels.ModifyCartRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
