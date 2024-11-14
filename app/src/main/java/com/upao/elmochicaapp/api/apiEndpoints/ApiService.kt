@@ -10,6 +10,7 @@ import com.upao.elmochicaapp.models.responseModels.LoginResponse
 import com.upao.elmochicaapp.models.responseModels.UserResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -51,4 +52,8 @@ interface ApiService {
     suspend fun modifyCartProduct(
         @Body requestBody: ModifyCartRequest
     ): Response<Void>
+
+    @DELETE("/api/cart/eliminarproducto/{productId}")
+    suspend fun deleteProductFromCart(@Path("productId") productId: String): Response<Void>
+
 }
