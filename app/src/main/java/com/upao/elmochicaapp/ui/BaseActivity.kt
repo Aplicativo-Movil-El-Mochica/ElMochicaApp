@@ -135,6 +135,11 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+    fun getToken(): String? {
+        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        return sharedPref.getString("JWT_TOKEN", null)
+    }
+
     protected fun getUserId(): String? {
         val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         return sharedPref.getString("USER_ID", null)
