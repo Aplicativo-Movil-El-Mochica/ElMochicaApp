@@ -19,8 +19,7 @@
         app:titleMarginStart="90dp"
         app:titleTextColor="@color/white" />
 
-    <!-- Sección de Dirección de recojo -->
-
+    <!-- Sección de Tipo de pedido -->
     <TextView
         android:id="@+id/tv_tipo_pedido"
         android:layout_width="wrap_content"
@@ -50,9 +49,13 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/resta"
             android:drawablePadding="20dp"
-            android:shadowRadius="@null"
             android:fontFamily="@font/nunito_bold"
-            android:text="Recojo en restaurante" />
+            android:text="Recojo en restaurante"
+            android:background="@drawable/radio_button_background"
+            android:padding="16dp"
+            android:buttonTint="@android:color/transparent"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/black" />
 
         <RadioButton
             android:id="@+id/radio_delivery"
@@ -61,34 +64,60 @@
             android:drawableLeft="@drawable/deli"
             android:drawablePadding="20dp"
             android:fontFamily="@font/nunito_bold"
-            android:shadowRadius="@null"
             android:text="Delivery a domicilio"
-            android:textAlignment="textStart" />
+            android:background="@drawable/radio_button_background"
+            android:padding="16dp"
+            android:buttonTint="@android:color/transparent"
+            android:textColor="@color/black" />
     </RadioGroup>
 
+    <!-- Sección de Dirección de recojo -->
     <LinearLayout
         android:id="@+id/section_recojo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/radio_group_tipo_pedido"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/pin" />
-
+        <!-- Título Dirección de recojo -->
         <TextView
+            android:id="@+id/tv_direccion_recojo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Calle Sta. Mariana 146 Urb. La Merced"
+            android:text="Dirección de recojo"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="15sp"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:layout_marginBottom="8dp" />
+
+        <!-- Tarjeta de Dirección de recojo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/radio_button_background"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pin" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Calle Sta. Mariana 146 Urb. La Merced"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Sección de Dirección de entrega (para Delivery) -->
@@ -103,13 +132,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp">
 
+        <!-- Título de Dirección de entrega -->
+        <TextView
+            android:id="@+id/tv_direccion_entrega"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dirección de entrega"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
         <EditText
             android:id="@+id/et_direccion_entrega"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Dirección de entrega"
             android:drawableStart="@drawable/pin"
-            android:inputType="text" />
+            android:drawablePadding="8dp"
+            android:padding="16dp"
+            android:inputType="text"
+            android:background="@drawable/radio_button_background"
+            android:textColorHint="#A9A9A9"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/et_referencia_domicilio"
@@ -117,7 +162,13 @@
             android:layout_height="wrap_content"
             android:hint="Referencia de domicilio"
             android:drawableStart="@drawable/pin"
-            android:inputType="text" />
+            android:drawablePadding="8dp"
+            android:padding="16dp"
+            android:inputType="text"
+            android:background="@drawable/radio_button_background"
+            android:textColorHint="#A9A9A9"
+            android:textColor="@color/black"
+            android:layout_marginTop="8dp" />
     </LinearLayout>
 
     <!-- Total y botón para hacer el pedido -->
