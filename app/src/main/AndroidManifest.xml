@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <queries>
         <!-- Declaración para WhatsApp estándar -->
@@ -12,6 +13,7 @@
     </queries>
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,6 +28,11 @@
         <activity
             android:name=".ui.OrderActivity"
             android:exported="false" />
+        <activity
+            android:name="com.izipay.izipay_pw_sdk.ui.fullscreend.ContainerActivity"
+            android:exported="true"
+            tools:replace="android:exported" />
+
         <activity
             android:name=".ui.CartActivity"
             android:exported="false" />
@@ -50,6 +57,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
 
         <meta-data
             android:name="preloaded_fonts"

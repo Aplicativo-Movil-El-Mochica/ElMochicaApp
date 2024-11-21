@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.net.Uri
+import android.util.Log
 import java.net.URLEncoder
 
 open class BaseActivity : AppCompatActivity() {
@@ -120,6 +121,7 @@ open class BaseActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
+                    Log.d("MenuActivity", "Error al validar la sesión: ${e.message}")
                     Toast.makeText(this@BaseActivity, "Error de red: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }

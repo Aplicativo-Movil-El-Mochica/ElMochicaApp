@@ -5,6 +5,7 @@ import com.upao.elmochicaapp.models.Product
 import com.upao.elmochicaapp.models.User
 import com.upao.elmochicaapp.models.requestModels.AddressRequest
 import com.upao.elmochicaapp.models.requestModels.CartItemRequest
+import com.upao.elmochicaapp.models.requestModels.FormtokenRequest
 import com.upao.elmochicaapp.models.requestModels.LoginRequest
 import com.upao.elmochicaapp.models.requestModels.ModifyCartRequest
 import com.upao.elmochicaapp.models.responseModels.LoginResponse
@@ -63,5 +64,9 @@ interface ApiService {
 
     @DELETE("/api/cart/eliminarproducto/{productId}")
     suspend fun deleteProductFromCart(@Path("productId") productId: String): Response<Void>
+
+    @POST("/api/payment/formtoken")
+    suspend fun getFormToken(@Body request: FormtokenRequest): Response<Map<String, String>>
+
 
 }

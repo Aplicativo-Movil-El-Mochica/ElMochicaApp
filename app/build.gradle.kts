@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt") // Para habilitar KAPT
+    id("dagger.hilt.android.plugin") // Plugin de Hilt
 }
 
 android {
@@ -37,21 +39,46 @@ android {
 
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    //retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    // Coroutines para llamadas asincrónicas
+    // Carga los archivos .aar desde la carpeta libs
+    implementation(files("libs/izipay-sdk-2.0.0.aar"))
+    implementation(files("libs/sonic-sdk-release-1.4.0.aar"))
+    implementation(files("libs/TMXDeviceSecurityHealth-RL-6.3-77.aar"))
+    implementation(files("libs/TMXProfiling-RL-6.3-77.aar"))
+    implementation(files("libs/visa-sensory-branding-2.1.aar"))
+    implementation(files("libs/TMXAuthentication-RL-6.3-77.aar"))
+    implementation(files("libs/TMXBehavioralBiometrics-RL-6.3-77.aar"))
+    implementation(files("libs/TMXProfilingConnections-RL-6.3-77.aar"))
+    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
+    implementation("com.github.skydoves:powerspinner:1.2.7")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation("com.github.skydoves:balloon:1.3.6")
+
+    // Retrofit y Coroutines
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-compiler:2.44")
+
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    kapt("com.github.bumptech.glide:compiler:4.12.0")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+kapt {
+    correctErrorTypes = true
 }

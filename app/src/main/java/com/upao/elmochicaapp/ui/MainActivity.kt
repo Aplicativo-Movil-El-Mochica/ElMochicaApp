@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.upao.elmochicaapp.R
+import com.upao.elmochicaapp.api.apiClient.ApiClient
+import com.upao.elmochicaapp.api.apiEndpoints.ApiService
 
 class MainActivity : AppCompatActivity() {
 
@@ -90,5 +92,21 @@ class MainActivity : AppCompatActivity() {
     private fun isUserLoggedIn(): Boolean {
         val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         return sharedPref.getString("JWT_TOKEN", null) != null
+    }
+
+
+
+    private suspend fun checkUserSession() {
+        if (isUserLoggedIn()) {
+            val jwtToken = getSharedPreferences("app_prefs", Context.MODE_PRIVATE).getString("JWT_TOKEN", null)
+            if (jwtToken != null) {
+                // Usamos Retrofit para hacer la solicitud
+                val apiService: ApiService = ApiClient.apiService
+                val dni = 76421681  // Aquí va el DNI del usuario
+
+                val call = apiService.getUserByDni(dni, "Bearer $jwtToken")
+
+            }
+        }
     }
 }

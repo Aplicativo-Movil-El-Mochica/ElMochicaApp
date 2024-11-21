@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.OrderActivity">
 
+
+
     <!-- Barra superior con título y botón de retroceso -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
@@ -71,6 +73,8 @@
             android:textColor="@color/black" />
     </RadioGroup>
 
+
+
     <!-- Sección de Dirección de recojo -->
     <LinearLayout
         android:id="@+id/section_recojo"
@@ -132,6 +136,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp">
 
+
+
         <!-- Título de Dirección de entrega -->
         <TextView
             android:id="@+id/tv_direccion_entrega"
@@ -171,6 +177,17 @@
             android:layout_marginTop="8dp" />
     </LinearLayout>
 
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbar2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_hacer_pedido" />
+
     <!-- Total y botón para hacer el pedido -->
     <TextView
         android:id="@+id/tv_total"
@@ -182,6 +199,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp" />
+
+
 
     <Button
         android:id="@+id/btn_hacer_pedido"

@@ -3,15 +3,20 @@ package com.upao.elmochicaapp.ui
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.navigation.NavigationView
 import com.upao.elmochicaapp.R
+import com.upao.elmochicaapp.api.apiClient.ApiClient
+import kotlinx.coroutines.launch
 
 class MenuActivity : BaseActivity() {
 
@@ -20,6 +25,8 @@ class MenuActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
+
+
 
         // Inicializar drawerLayout y navigationView
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -120,5 +127,58 @@ class MenuActivity : BaseActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
+    }
+
+
+    private fun validateSession() {
+        lifecycleScope.launch {
+            try {
+                val jwt = getJwtToken() // Obtener el token JWT desde el almacenamiento local (SharedPreferences)
+                if (jwt != null) {
+                    val response = ApiClient.apiService.getUserByDni(dni = getUserDni(), token = "Bearer $jwt")
+                    if (response.isSuccessful) {
+                        // La sesión es válida
+                        // Procesar los datos del usuario si es necesario
+                    } else if (response.code() == 403) {
+                        // El JWT ha expirado o es inválido, eliminamos el JWT y redirigimos
+                        clearJwtToken()
+                        Toast.makeText(this@MenuActivity, "Tu sesión ha caducado, por favor inicia sesión nuevamente", Toast.LENGTH_LONG).show()
+                        redirectToMain()
+                    }
+                } else {
+                    redirectToMain()
+                }
+            } catch (e: Exception) {
+                // Manejar cualquier otro error
+                e.printStackTrace()
+                Toast.makeText(this@MenuActivity, "Error al validar la sesión: ${e.message}", Toast.LENGTH_LONG).show()
+                Log.d("MenuActivity", "Error al validar la sesión: ${e.message}")
+            }
+        }
+    }
+
+    private fun getJwtToken(): String? {
+        // Implementa la lógica para obtener el JWT almacenado en SharedPreferences
+        val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        return sharedPreferences.getString("JWT_TOKEN", null)
+    }
+
+    private fun getUserDni(): Int {
+        // Devuelve el DNI del usuario almacenado
+        val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        return sharedPreferences.getInt("USER_DNI", 0)
+    }
+
+    private fun clearJwtToken() {
+        // Elimina el JWT almacenado en SharedPreferences
+        val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        sharedPreferences.edit().remove("JWT_TOKEN").apply()
+    }
+
+    private fun redirectToMain() {
+        // Redirige al MainActivity
+        val intent = Intent(this@MenuActivity, MainActivity::class.java)
+        startActivity(intent)
+        finish() // Finaliza la actividad actual para evitar que el usuario regrese a ella
     }
 }
