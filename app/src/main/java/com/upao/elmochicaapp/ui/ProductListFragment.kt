@@ -51,7 +51,16 @@ class ProductListFragment : Fragment() {
             try {
                 val response = ApiClient.apiService2.getProductsByCategory(category)
                 if (response.isSuccessful) {
-                    val products = response.body() ?: emptyList()
+                    val products = response.body()?.map { product ->
+                        // Generar la URL basada en el nombre del producto
+                        val encodedProductName = product.productName.replace(" ", "%20")
+                        val imageUrl = "https://pacohunter.alwaysdata.net/uploads/$encodedProductName.jpg"
+
+                        // Asignar la URL de la imagen al producto
+                        product.copy(imageUrl = imageUrl)
+                    } ?: emptyList()
+
+                    // Actualizar el adaptador con los productos modificados
                     productAdapter.updateProducts(products)
                 } else {
                     Toast.makeText(context, "Error al cargar productos", Toast.LENGTH_SHORT).show()

@@ -9,6 +9,10 @@ android {
     namespace = "com.upao.elmochicaapp"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.upao.elmochicaapp"
         minSdk = 24
@@ -60,7 +64,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation("com.github.skydoves:balloon:1.3.6")
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
 
+    // Material Components para TabLayout
+    implementation("com.google.android.material:material:1.9.0")
     // Retrofit y Coroutines
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")

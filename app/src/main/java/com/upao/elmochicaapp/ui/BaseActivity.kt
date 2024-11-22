@@ -18,7 +18,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.net.Uri
 import android.util.Log
+import dagger.hilt.android.AndroidEntryPoint
 import java.net.URLEncoder
+
+
 
 open class BaseActivity : AppCompatActivity() {
 
