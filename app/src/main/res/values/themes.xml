@@ -3,6 +3,7 @@
     <style name="Base.Theme.ElMochicaApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/brown</item> <!-- Color que prefieras -->
     </style>
 
     <style name="Theme.ElMochicaApp" parent="Base.Theme.ElMochicaApp" />

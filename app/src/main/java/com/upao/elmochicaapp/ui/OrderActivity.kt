@@ -1,44 +1,41 @@
 package com.upao.elmochicaapp.ui
 
+import android.content.Context
 
-
-import com.upao.elmochicaapp.com.upao.elmochicaapp.models.IziPaySignatureGenerator
-import org.json.JSONObject
-import java.io.OutputStream
-import java.net.HttpURLConnection
-import java.net.URL
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RadioGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.upao.elmochicaapp.R
-import com.upao.elmochicaapp.com.upao.elmochicaapp.ui.PayCallback
+import com.upao.elmochicaapp.api.apiClient.ApiClient
+import com.upao.elmochicaapp.com.upao.elmochicaapp.ui.PaymentFragment
+import com.upao.elmochicaapp.models.CartProduct
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
+class OrderActivity : AppCompatActivity(){
 
-class OrderActivity : BaseActivity(), PayCallback {
-
-    private lateinit var sectionRecojo: LinearLayout
     private lateinit var sectionDelivery: LinearLayout
     private lateinit var radioGroupTipoPedido: RadioGroup
     private lateinit var direccionEntrega: EditText
     private lateinit var referenciaDomicilio: EditText
     private lateinit var confirmButton: Button
+    private lateinit var productsContainer: LinearLayout
 
     @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
@@ -47,6 +44,10 @@ class OrderActivity : BaseActivity(), PayCallback {
         initializeViews()
         handleRadioGroupSelection()
         setupConfirmButton()
+
+        // Llama a esta función para cargar los productos
+        loadProductsFromCart()
+        loadPaymentFragment()
     }
 
     private fun setupToolbar() {
@@ -57,28 +58,40 @@ class OrderActivity : BaseActivity(), PayCallback {
     }
 
     private fun initializeViews() {
-        sectionRecojo = findViewById(R.id.section_recojo)
         sectionDelivery = findViewById(R.id.section_delivery)
         radioGroupTipoPedido = findViewById(R.id.radio_group_tipo_pedido)
         direccionEntrega = findViewById(R.id.et_direccion_entrega)
         referenciaDomicilio = findViewById(R.id.et_referencia_domicilio)
         confirmButton = findViewById(R.id.btn_hacer_pedido)
+        productsContainer = findViewById(R.id.products_container)
+
     }
 
+
     private fun handleRadioGroupSelection() {
+        // Dirección predeterminada para "Recojo en restaurante"
+        val direccionRecojo = "Calle Sta. Mariana 146 Urb. La Merced"
+
         radioGroupTipoPedido.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.radio_recojo -> {
-                    sectionRecojo.visibility = View.VISIBLE
-                    sectionDelivery.visibility = View.GONE
+                    // Configuración para "Recojo en restaurante"
+                    direccionEntrega.setText(direccionRecojo) // Fijar dirección
+                    direccionEntrega.isEnabled = false // Desactivar edición
+                    referenciaDomicilio.setText("") // Limpiar referencia
+                    referenciaDomicilio.isEnabled = false // Desactivar referencia
                 }
                 R.id.radio_delivery -> {
-                    sectionRecojo.visibility = View.GONE
-                    sectionDelivery.visibility = View.VISIBLE
+                    // Configuración para "Delivery a domicilio"
+                    direccionEntrega.setText("") // Limpiar campo
+                    direccionEntrega.isEnabled = true // Habilitar edición
+                    referenciaDomicilio.setText("") // Limpiar referencia
+                    referenciaDomicilio.isEnabled = true // Habilitar edición
                 }
             }
         }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupConfirmButton() {
@@ -100,138 +113,131 @@ class OrderActivity : BaseActivity(), PayCallback {
             return
         }
 
-        // Generar los parámetros de pago
-        val amount = "2800" // Monto en centavos (por ejemplo, 28.00 soles = 2800 centavos)
-        val iziPaySignatureGenerator = IziPaySignatureGenerator()
-        val paymentParams = iziPaySignatureGenerator.generatePaymentParams(amount)
-
-        // Lanzar el formulario de pago con los parámetros generados
-        launchPaymentForm(paymentParams)
     }
 
-    private var hasRedirected = false
-    private var hasRegeneratedSignature = false
+    private fun loadPaymentFragment() {
+        // Inicia una Coroutine en el hilo principal
+        CoroutineScope(Dispatchers.Main).launch {
+            val userId = getUserId()  // Obtén el userId
+            if (userId != null) {
+                // Espera de forma asíncrona para obtener el total
+                val totalAmount = getTotalAmount(userId)  // Obtén el total con la cuota de envío
 
-    private fun launchPaymentForm(paymentParams: Map<String, String>) {
-        try {
-            Log.d("OrderActivity", "Iniciando el pago con parámetros: $paymentParams")
-
-            val paymentUrl = "https://secure.micuentaweb.pe/vads-payment/entry.silentInit.a"
-            val webView = findViewById<WebView>(R.id.webView)
-            webView.visibility = View.VISIBLE
-            webView.settings.javaScriptEnabled = true
-            webView.settings.domStorageEnabled = true
-
-            webView.webViewClient = object : WebViewClient() {
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-                    Log.d("WebViewClient", "onPageFinished URL: $url")
-
-                    // Evitar redirecciones múltiples o doble procesamiento
-                    if (hasRedirected) {
-                        Log.d("WebViewClient", "Redirección ya realizada, no se procesa nuevamente.")
-                        return
-                    }
-
-                    view?.evaluateJavascript(
-                        "(function() { return document.body.innerText; })();"
-                    ) { response ->
-                        try {
-                            // Convertir la respuesta en un JSON o texto para procesar
-                            val jsonResponseString = response
-                                .replace("\\\"", "\"") // Reemplazar caracteres escapados
-                                .trim('"') // Eliminar comillas externas si existen
-                            Log.d("WebViewClient", "Respuesta capturada (procesada): $jsonResponseString")
-
-                            // Paso 1: Procesar la firma esperada
-                            if (!hasRegeneratedSignature && jsonResponseString.contains("Cadena de caracteres esperada")) {
-                                val signaturePattern = "Cadena de caracteres esperada \\(UTF-8\\) : \\[(.*?)\\]"
-                                val regex = Regex(signaturePattern)
-                                val matchResult = regex.find(jsonResponseString)
-
-                                if (matchResult != null) {
-                                    val expectedSignature = matchResult.groupValues[1]
-                                    Log.d("OrderActivity", "Firma esperada capturada: $expectedSignature")
-
-                                    // Regenerar los parámetros de pago con la nueva firma
-                                    val updatedPaymentParams = paymentParams.toMutableMap().apply {
-                                        put("signature", expectedSignature)
-                                    }
-
-                                    // Actualizar la bandera de regeneración
-                                    hasRegeneratedSignature = true
-
-                                    // Relanzar el formulario con la nueva firma
-                                    launchPaymentForm(updatedPaymentParams)
-                                    return@evaluateJavascript // Terminar aquí para evitar seguir procesando
-                                }
-                            }
-
-                            // Paso 2: Procesar el redirect_url
-                            val jsonResponse = JSONObject(jsonResponseString)
-
-                            if (jsonResponse.has("redirect_url")) {
-                                val redirectUrl = jsonResponse.getString("redirect_url")
-                                Log.d("OrderActivity", "URL de redirección capturada: $redirectUrl")
-
-                                // Configurar la bandera para evitar redirección múltiple
-                                hasRedirected = true
-
-                                // Redirigir automáticamente al redirect_url
-                                view.post {
-                                    view.loadUrl(redirectUrl)
-                                }
-                            }
-                        } catch (e: Exception) {
-                            Log.e("WebViewClient", "Error procesando la respuesta JSON: ${e.message}")
-                        }
-                    }
+                // Crear un nuevo Bundle con los valores que queremos pasar al fragmento
+                val bundle = Bundle().apply {
+                    putString("userId", userId)  // Pasa el userId
+                    putDouble("totalAmount", totalAmount)  // Pasa el totalAmount
                 }
 
-                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                    url?.let {
-                        Log.d("WebViewClient", "shouldOverrideUrlLoading URL: $it")
-                        if (it.contains("success")) {
-                            onSuccess("transactionId") // Manejar éxito
-                        } else if (it.contains("error") || it.contains("refused") || it.contains("cancel")) {
-                            onFailure("Error en el pago")
-                        } else {
-                            view?.loadUrl(it) // Cargar redirección
-                        }
-                    }
-                    return true
+                // Crear una instancia del PaymentFragment
+                val paymentFragment = PaymentFragment().apply {
+                    arguments = bundle
                 }
+
+                // Reemplazar el fragmento en el contenedor
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.paymentFragmentContainer, paymentFragment)
+                    .commit()
+            } else {
+                Toast.makeText(this@OrderActivity, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
             }
-
-            val paymentHtml = StringBuilder().apply {
-                append("<html><body onload=\"document.forms['paymentForm'].submit()\">")
-                append("<form id=\"paymentForm\" action=\"$paymentUrl\" method=\"post\">")
-                paymentParams.forEach { (key, value) ->
-                    append("<input type=\"hidden\" name=\"$key\" value=\"$value\" />")
-                }
-                append("</form></body></html>")
-            }.toString()
-
-            webView.loadData(paymentHtml, "text/html", "UTF-8")
-
-        } catch (e: Exception) {
-            Log.e("OrderActivity", "Error al iniciar el pago: ${e.message}")
-            Toast.makeText(this, "Error al iniciar el pago", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onSuccess(transactionId: String) {
-        Log.d("OrderActivity", "Pago exitoso con ID: $transactionId")
-        Toast.makeText(this, "Pago exitoso", Toast.LENGTH_SHORT).show()
+    private fun loadProductsFromCart() {
+        val userId = getUserId()
+        if (userId != null) {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val response = ApiClient.apiService3.getCartProducts(userId)
+                    if (response.isSuccessful) {
+                        val cartProducts = response.body() ?: emptyList()
+
+                        withContext(Dispatchers.Main) {
+                            updateProductsContainer(cartProducts)
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@OrderActivity, "Error al obtener los productos del carrito", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@OrderActivity, "Error en la conexión: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    override fun onFailure(message: String) {
-        Log.e("OrderActivity", "Error en el pago: $message")
-        Toast.makeText(this, "Error en el pago: $message", Toast.LENGTH_SHORT).show()
+    private fun updateProductsContainer(products: List<CartProduct>) {
+        productsContainer.removeAllViews() // Limpia el contenedor antes de añadir productos
+
+        var subtotal = 0.0 // Variable para calcular el subtotal
+
+        // Agregar cada producto al contenedor
+        for (product in products) {
+            val productView = layoutInflater.inflate(R.layout.item_product_summary, productsContainer, false)
+
+            val productNameTextView = productView.findViewById<TextView>(R.id.tv_product_name)
+            val productPriceTextView = productView.findViewById<TextView>(R.id.tv_product_price)
+
+            // Mostrar nombre del producto con la cantidad entre paréntesis
+            productNameTextView.text = "${product.productName} (${product.amount})"
+
+            // Calcular el precio total del producto según la cantidad
+            val totalPrice = product.priceUnit * product.amount
+            productPriceTextView.text = "S/ $totalPrice.00"
+
+            subtotal += totalPrice // Acumular precio total en el subtotal
+            productsContainer.addView(productView) // Añadir la vista del producto al contenedor
+        }
+
+        // Añadir cuota de envío como un item separado
+        val shippingView = layoutInflater.inflate(R.layout.item_product_summary, productsContainer, false)
+        val shippingNameTextView = shippingView.findViewById<TextView>(R.id.tv_product_name)
+        val shippingPriceTextView = shippingView.findViewById<TextView>(R.id.tv_product_price)
+
+        shippingNameTextView.text = "Cuota de envío"
+        shippingPriceTextView.text = "S/ 5.00"
+
+        subtotal += 5.0 // Sumar la cuota de envío al subtotal
+
+        productsContainer.addView(shippingView) // Añadir la cuota de envío al contenedor
+
+        // Actualizar el subtotal en la vista
+        val subtotalTextView = findViewById<TextView>(R.id.tv_total)
+        subtotalTextView.text = "Total a pagar\nS/ $subtotal.00"
     }
 
-    override fun onCancel() {
-        Log.d("OrderActivity", "El usuario canceló el pago")
-        Toast.makeText(this, "Pago cancelado", Toast.LENGTH_SHORT).show()
+
+    private suspend fun getTotalAmount(userId: String): Double {
+        return try {
+            // Llamada a la API para obtener el subtotal
+            val response = ApiClient.apiService3.getSubtotal(userId)
+
+            if (response.isSuccessful) {
+                // Si la respuesta es exitosa, obtener el subtotal
+                val subtotal = response.body() ?: 0.0
+                // Calcular el total sumando la cuota de envío (5 soles)
+                val total = subtotal.toDouble() + 5.0
+                total
+            } else {
+                // Si ocurre un error en la API, retornar 0.0
+                0.0
+            }
+        } catch (e: Exception) {
+            // En caso de error de conexión, retornar 0.0
+            0.0
+        }
+    }
+
+
+
+    protected fun getUserId(): String? {
+        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        return sharedPref.getString("USER_ID", null)
     }
 }

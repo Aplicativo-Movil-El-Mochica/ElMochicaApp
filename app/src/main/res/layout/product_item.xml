@@ -7,14 +7,15 @@
     android:layout_margin="8dp"
     android:backgroundTint="@color/piel2"
     android:layout_marginVertical="4dp"
-    app:cardCornerRadius="20dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:weightSum="1">
 
         <!-- Imagen del producto -->
         <ImageView
@@ -23,15 +24,16 @@
             android:layout_height="80dp"
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"/>
-        <!-- android:src="@drawable/sample_image" /> Cambia "sample_image" por tu imagen predeterminada -->
+        <!-- android:src="@drawable/sample_image" />  Cambia esto por tu imagen -->
 
         <!-- Contenedor de texto -->
         <LinearLayout
-            android:layout_width="247dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_weight="0.7">
 
             <!-- Nombre del producto -->
             <TextView
@@ -50,14 +52,15 @@
                 android:layout_height="wrap_content"
                 android:text="Descripción del Producto"
                 android:textColor="#8B5E5E"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_marginTop="4dp" />
 
             <!-- Precio del producto -->
             <TextView
                 android:id="@+id/product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:text="S/ 00.00"
                 android:textColor="@color/brown"
                 android:textSize="16sp"
@@ -72,6 +75,7 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/circle_button_background"
             android:contentDescription="Agregar producto"
-            android:src="@drawable/add" />
+            android:src="@drawable/add"
+            android:layout_weight="0.1" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

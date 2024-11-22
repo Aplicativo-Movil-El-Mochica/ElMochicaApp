@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.upao.elmochicaapp.R
 import com.upao.elmochicaapp.models.Product
 
@@ -35,6 +37,7 @@ class ProductAdapter(
     }
 
     inner class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val productImage: ImageView = view.findViewById(R.id.product_image)
         val productName: TextView = view.findViewById(R.id.product_name)
         val productDescription: TextView = view.findViewById(R.id.product_description)
         val productPrice: TextView = view.findViewById(R.id.product_price)
@@ -51,6 +54,12 @@ class ProductAdapter(
         holder.productName.text = product.productName
         holder.productDescription.text = product.description
         holder.productPrice.text = "S/ ${product.price}"
+
+        Glide.with(holder.productImage.context)
+            .load(product.imageUrl) // Asegúrate de que `imageUrl` sea una propiedad en el modelo `Product`
+            .placeholder(R.drawable.placeholder_image) // Imagen de espera
+            .error(R.drawable.error_image) // Imagen en caso de error
+            .into(holder.productImage)
 
         // Configurar el botón de agregar para que llame al callback con el producto
         holder.addButton.setOnClickListener {
