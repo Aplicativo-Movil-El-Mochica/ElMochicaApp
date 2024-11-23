@@ -99,7 +99,15 @@ class CartActivity : BaseActivity() {
             try {
                 val response = ApiClient.apiService3.getCartProducts(userId)
                 if (response.isSuccessful) {
-                    val fetchedProducts = response.body() ?: emptyList()
+                    val fetchedProducts = response.body()?.map { product ->
+                        // Generar la URL basada en el nombre del producto
+                        val encodedProductName = product.productName.replace(" ", "%20")
+                        val imageUrl = "https://pacohunter.alwaysdata.net/uploads/$encodedProductName.jpg"
+
+                        // Asignar la URL de la imagen al producto
+                        product.copy(imageUrl = imageUrl)
+                    } ?: emptyList()
+
                     withContext(Dispatchers.Main) {
                         cartProducts.clear()
                         cartProducts.addAll(fetchedProducts)

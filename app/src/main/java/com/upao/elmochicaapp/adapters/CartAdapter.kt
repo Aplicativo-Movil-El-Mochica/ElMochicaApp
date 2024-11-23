@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.upao.elmochicaapp.R
 import com.upao.elmochicaapp.models.CartProduct
 
@@ -37,8 +38,15 @@ class CartAdapter(
         val product = cartProducts[position]
 
         holder.productName.text = product.productName
-        holder.productPrice.text = "S/ ${product.priceUnit * product.amount}" // Calcula el precio total en tiempo real
+        holder.productPrice.text = "S/ ${product.priceUnit * product.amount}" // Calcula el precio total
         holder.productAmount.text = product.amount.toString()
+
+        // Cargar la imagen usando Glide
+        Glide.with(holder.itemView.context)
+            .load(product.imageUrl) // URL de la imagen
+            .placeholder(R.drawable.placeholder_image) // Imagen de carga
+            .error(R.drawable.error_image) // Imagen de error
+            .into(holder.productImage)
 
         holder.decreaseButton.setOnClickListener {
             if (product.amount > 1) {
@@ -51,9 +59,10 @@ class CartAdapter(
         }
 
         holder.deleteButton.setOnClickListener {
-            onDelete(product) // Llama a la función de eliminación
+            onDelete(product)
         }
     }
+
 
     override fun getItemCount(): Int = cartProducts.size
 }

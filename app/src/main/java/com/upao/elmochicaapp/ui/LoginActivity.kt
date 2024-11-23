@@ -98,7 +98,7 @@ class LoginActivity : AppCompatActivity() {
                     val dni = loginResponse?.dni
 
                     if (token != null && dni != null) {
-                        saveTokenAndDni(token, dni)
+                        saveTokenAndDni(token, dni, email)
                         Toast.makeText(this@LoginActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
 
                         // Redirige al usuario a la pantalla principal
@@ -117,12 +117,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveTokenAndDni(token: String, dni: Int) {
+    private fun saveTokenAndDni(token: String, dni: Int, email: String) {
         println("Almacenando DNI: $dni")
         val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("JWT_TOKEN", token)
             putInt("USER_DNI", dni)
+            putString("CORREO", email)
             apply()
         }
     }
