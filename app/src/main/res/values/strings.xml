@@ -40,8 +40,18 @@
     <string name="btn_cart">Ir a pagar</string>
 
     !-- Siderbar-->
-    <string name="opc1">Contáctanos</string>
-    <string name="opc2">Cerrar Sesión</string>
+    <string name="opc1">Mi pedido</string>
+    <string name="opc2">Contáctanos</string>
+    <string name="opc3">Cerrar Sesión</string>
+
+    !-- Mi Pedido-->
+    <string name="ver_mi_pedido">Mi pedido</string>
+    <string name="estado_de_mi_pedido">Estado de mi pedido</string>
+    <string name="tiempo_de_entrega">Tiempo estimado de entrega</string>
+    <string name="resumen_de_pedido">Resumen de pedido</string>
+    <string name="cancelar_mi_pedido">Cancelar Pedido</string>
+
+
 
 
 </resources>

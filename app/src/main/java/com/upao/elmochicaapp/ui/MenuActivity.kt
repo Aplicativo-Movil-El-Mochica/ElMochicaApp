@@ -26,8 +26,6 @@ class MenuActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-
-
         // Inicializar drawerLayout y navigationView
         drawerLayout = findViewById(R.id.drawer_layout)
         val navigationView = findViewById<NavigationView>(R.id.navigation_view)

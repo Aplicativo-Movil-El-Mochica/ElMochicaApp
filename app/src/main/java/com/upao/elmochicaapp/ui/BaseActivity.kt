@@ -62,6 +62,12 @@ open class BaseActivity : AppCompatActivity() {
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.mi_pedido -> {
+                    val intent = Intent(this, MyOrderActivity::class.java)
+                    startActivity(intent)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
                 R.id.menu_contact -> {
                     openWhatsApp()
                     drawerLayout.closeDrawer(GravityCompat.START)
@@ -79,7 +85,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun openWhatsApp() {
         val phoneNumberWithCountryCode = "51949494754"
-        val message = "Hola, me gustaría hacer un pedido."
+        val message = "Hola, tengo una consulta."
         val url = "https://api.whatsapp.com/send?phone=$phoneNumberWithCountryCode&text=${URLEncoder.encode(message, "UTF-8")}"
 
         try {

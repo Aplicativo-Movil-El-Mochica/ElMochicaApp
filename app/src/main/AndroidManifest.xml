@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <queries>
+
         <!-- Declaración para WhatsApp estándar -->
         <package android:name="com.whatsapp" />
         <!-- Declaración para WhatsApp Business (opcional) -->
@@ -24,8 +25,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ElMochicaApp"
         android:usesCleartextTraffic="true"
-
         tools:targetApi="31">
+        <activity
+            android:name=".ui.MyOrderActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.OrderActivity"
             android:exported="false" />
@@ -33,7 +36,6 @@
             android:name="com.izipay.izipay_pw_sdk.ui.fullscreend.ContainerActivity"
             android:exported="true"
             tools:replace="android:exported" />
-
         <activity
             android:name=".ui.CartActivity"
             android:exported="false" />
@@ -58,8 +60,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
 
         <meta-data
             android:name="preloaded_fonts"

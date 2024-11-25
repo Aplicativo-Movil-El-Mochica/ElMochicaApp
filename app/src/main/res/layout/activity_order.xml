@@ -160,7 +160,7 @@
                     android:id="@+id/paymentFragmentContainer"
                     android:layout_width="match_parent"
                     android:layout_height="483dp"
-                    android:background="#F5F5F5" />
+                    android:background="@color/white" />
             </LinearLayout>
 
             <!-- Sección de Información Adicional -->
@@ -216,8 +216,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginBottom="16dp"
+        android:textSize="16sp"
         android:text="Total a pagar\nS/ 28.00"
-        android:textStyle="bold"
+        android:textColor="@color/brown"
+        android:fontFamily="@font/nunito_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/mi_pedido"
+        android:icon="@drawable/pedido"
+        android:title="@string/opc1" />
+    <item
         android:id="@+id/menu_contact"
         android:icon="@drawable/wspp"
         android:iconTint="@color/verde"
-        android:title="@string/opc1" />
+        android:title="@string/opc2" />
     <item
         android:id="@+id/menu_logout"
         android:icon="@drawable/leave"
-        android:title="@string/opc2" />
+        android:title="@string/opc3" />
 </menu>
