@@ -178,7 +178,7 @@
                     android:id="@+id/tv_additional_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Información adicional"
+                    android:text="Resumen del pedido"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/nunito_bold"

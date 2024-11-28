@@ -92,6 +92,7 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val response = ApiClient.apiService.loginUser(LoginRequest(email, password))
+
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     val token = loginResponse?.token
@@ -108,7 +109,19 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, "Error al obtener token o DNI", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(this@LoginActivity, "Correo o contraseña incorrectas", Toast.LENGTH_SHORT).show()
+                    when (response.code()) {
+                        401 -> {
+                            val errorMessage = response.errorBody()?.string()
+                            Toast.makeText(this@LoginActivity, "$errorMessage", Toast.LENGTH_SHORT).show()
+                        }
+                        else -> {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Error inesperado: ${response.code()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -116,6 +129,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun saveTokenAndDni(token: String, dni: Int, email: String) {
         println("Almacenando DNI: $dni")

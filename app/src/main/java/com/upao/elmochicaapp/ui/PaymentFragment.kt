@@ -73,6 +73,8 @@ class PaymentFragment : Fragment() {
             orderId = orderId
         )
 
+        Log.d("PaymentFragment", "Total Amount: $formTokenRequest")
+
         // Llamar al método para cargar el formulario de pago
         fetchFormTokenAndLoadPaymentForm(formTokenRequest)
     }
@@ -98,6 +100,7 @@ class PaymentFragment : Fragment() {
     private fun fetchFormTokenAndLoadPaymentForm(request: FormtokenRequest) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                Log.d("PaymentFragment", "Total Amount: $request")
                 // Llamar al API para obtener el formToken
                 val response: Response<Map<String, String>> = ApiClient.apiService3.getFormToken(request)
                 if (response.isSuccessful && response.body() != null) {
