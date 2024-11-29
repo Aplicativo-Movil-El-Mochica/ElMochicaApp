@@ -3,6 +3,8 @@ package com.upao.elmochicaapp.ui
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -139,6 +141,13 @@ class MyOrderActivity : BaseActivity() {
         // Cambiar el ícono de la evaluación
         val evaluationIcon = findViewById<ImageView>(R.id.evaluation_icon)
         evaluationIcon.setImageResource(R.drawable.check) // Coloca aquí el nuevo ícono
+
+        // Ocultar el temporizador y el botón de cancelar cuando se cumple el tiempo
+        val orderTimeTextView = findViewById<TextView>(R.id.order_time)
+        val cancelButton = findViewById<Button>(R.id.cancel_button)
+
+        orderTimeTextView.visibility = View.GONE  // Ocultar el temporizador
+        cancelButton.visibility = View.GONE      // Ocultar el botón de cancelar
     }
 
     private fun updateTimeTextView(timeRemaining: Int) {
@@ -165,6 +174,7 @@ class MyOrderActivity : BaseActivity() {
                 val response = ApiClient.apiService3.actualizarStatus(orderId, request)
                 if (response.isSuccessful) {
                     Toast.makeText(this@MyOrderActivity, "Estado actualizado a EN_PROCESO", Toast.LENGTH_SHORT).show()
+                    updateEvaluationStatus()
                 } else {
                     Toast.makeText(this@MyOrderActivity, "No se pudo actualizar el estado", Toast.LENGTH_SHORT).show()
                 }
