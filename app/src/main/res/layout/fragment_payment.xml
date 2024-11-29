@@ -1,31 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<androidx.cardview.widget.CardView
+    android:id="@+id/pago_panel"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Título o encabezado opcional -->
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="0sp"
-        android:textStyle="bold"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/white">
 
-    <!-- Contenedor del SDK de IziPay -->
-    <FrameLayout
-        android:id="@+id/sdkFragmentContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="16dp"
-        android:background="#FFFFFF" />
+        <!-- Título con ícono -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:src="@drawable/card"
+                android:contentDescription="Ícono de tarjeta"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Agregar nuevo método de pago"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Número de tarjeta -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Número de tarjeta"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="15sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/et_card_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="XXXX-XXXX-XXXX-XXXX"
+            android:inputType="number"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="15sp"
+            android:layout_marginBottom="16dp"
+            android:maxLength="19" />
+
+        <!-- Nombre -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="15sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre"
+            android:fontFamily="@font/nunito_bold"
+            android:textSize="15sp"
+            android:inputType="text"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Sección de Fecha de expiración y Código de seguridad -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginBottom="16dp">
+
+            <!-- Columna izquierda -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha de expiración"
+                    android:fontFamily="@font/nunito_bold"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="4dp" />
+
+                <EditText
+                    android:id="@+id/et_expiration_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="MM/YY"
+                    android:fontFamily="@font/nunito_bold"
+                    android:textSize="15sp"
+                    android:inputType="date"/>
+            </LinearLayout>
+
+            <!-- Espaciado entre columnas -->
+            <View
+                android:layout_width="16dp"
+                android:layout_height="match_parent" />
+
+            <!-- Columna derecha -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Código de seguridad"
+                    android:fontFamily="@font/nunito_bold"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="4dp" />
+
+                <EditText
+                    android:id="@+id/et_security_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="XXX"
+                    android:fontFamily="@font/nunito_bold"
+                    android:textSize="15sp"
+                    android:inputType="numberPassword"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Botón Aceptar -->
+        <Button
+            android:id="@+id/btn_accept"
+            android:layout_width="153dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/brown"
+            android:fontFamily="@font/nunito_bold"
+            android:padding="12dp"
+            android:text="Aceptar"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

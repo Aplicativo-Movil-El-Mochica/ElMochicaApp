@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:contentDescription="Pantalla de lista de platos"
     tools:context=".ui.MenuActivity">
 
     <!-- Contenido principal de la actividad -->
@@ -34,6 +35,7 @@
                 android:id="@+id/menu_icon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:contentDescription="Botón para abrir el menú lateral"
                 android:src="@drawable/barras" />
 
             <ImageView
@@ -41,6 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
+                android:contentDescription="Logo del restaurante Mochica"
                 android:src="@drawable/log_mochica" />
 
             <ImageView
@@ -48,7 +51,8 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="15dp"
-            android:src="@drawable/carrito" />
+                android:contentDescription="Icono del carrito de compras"
+                android:src="@drawable/carrito" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -62,6 +66,7 @@
         android:queryHint="¿Qué quieres comer hoy?"
         android:iconifiedByDefault="false"
         android:layout_marginBottom="8dp"
+        android:contentDescription="Barra de búsqueda de platos en el menú"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -88,6 +93,7 @@
                     android:backgroundTint="@color/brown"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/white"
+                    android:contentDescription="Categoría Entradas"
                     android:text="Entradas" />
 
                 <Button
@@ -97,6 +103,7 @@
                     android:backgroundTint="@color/brown"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/white"
+                    android:contentDescription="Categoría Platos Criollos"
                     android:text="Platos Criollos" />
 
                 <Button
@@ -106,6 +113,7 @@
                     android:backgroundTint="@color/brown"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/white"
+                    android:contentDescription="Categoría Pescados y Mariscos"
                     android:text="Pescados y Mariscos" />
 
                 <Button
@@ -115,6 +123,7 @@
                     android:backgroundTint="@color/brown"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/white"
+                    android:contentDescription="Categoría Ceviches"
                     android:text="Ceviches" />
 
                 <Button
@@ -124,6 +133,7 @@
                     android:backgroundTint="@color/brown"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/white"
+                    android:contentDescription="Categoría Causas"
                     android:text="Causas" />
 
                 <Button
@@ -133,6 +143,7 @@
                     android:backgroundTint="@color/brown"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/white"
+                    android:contentDescription="Categoría Sopas"
                     android:text="Sopas" />
 
                 <Button
@@ -142,6 +153,7 @@
                     android:backgroundTint="@color/brown"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/white"
+                    android:contentDescription="Categoría Ensaladas"
                     android:text="Ensaladas" />
 
                 <Button
@@ -151,6 +163,7 @@
                     android:backgroundTint="@color/brown"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/white"
+                    android:contentDescription="Categoría Piqueos"
                     android:text="Piqueos" />
 
                 <Button
@@ -160,6 +173,7 @@
                     android:backgroundTint="@color/brown"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/white"
+                    android:contentDescription="Categoría Postres de la Casa"
                     android:text="Postres de la Casa" />
 
                 <Button
@@ -169,6 +183,7 @@
                     android:backgroundTint="@color/brown"
                     android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/white"
+                    android:contentDescription="Categoría Otras Especialidades"
                     android:text="Otras Especialidades" />
 
             </LinearLayout>
@@ -195,6 +210,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:contentDescription="Sección para mostrar los platos"
         app:layout_constraintBottom_toTopOf="@id/btn_checkout"
         app:layout_constraintTop_toBottomOf="@id/category_title" />
 
@@ -209,6 +225,7 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:text="@string/btn_pagar"
+        android:contentDescription="Botón para ir al proceso de pago"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -223,5 +240,6 @@
         android:layout_gravity="start"
         app:menu="@menu/sidebar_menu"
         app:headerLayout="@layout/nav_header"
-        android:background="#FFFFFF" />
+        android:contentDescription="Menú de navegación lateral"
+        android:background="@color/white" />
 </androidx.drawerlayout.widget.DrawerLayout>

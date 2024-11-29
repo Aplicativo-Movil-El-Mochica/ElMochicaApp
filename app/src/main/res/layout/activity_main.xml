@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo_mochica2"
+    android:contentDescription="Pantalla principal de bienvenida"
     tools:context=".ui.MainActivity">
 
     <!-- Texto de Bienvenida -->
@@ -19,6 +21,7 @@
         android:textColor="@color/white"
         android:textSize="50sp"
         android:textStyle="bold"
+        android:contentDescription="Texto de bienvenida a la aplicación"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,6 +33,7 @@
         android:layout_height="100dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/log_mochica"
+        android:contentDescription="Logotipo de Mochica"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_welcome" />
@@ -45,6 +49,7 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:contentDescription="Botón para iniciar sesión en la aplicación"
         app:layout_constraintBottom_toTopOf="@+id/text_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -58,6 +63,7 @@
         android:layout_marginBottom="28dp"
         android:textColor="@color/brown"
         android:textSize="17sp"
+        android:contentDescription="Texto para registrarse en la aplicación"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.453"

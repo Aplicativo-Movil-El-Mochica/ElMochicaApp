@@ -3,14 +3,17 @@
     <item
         android:id="@+id/mi_pedido"
         android:icon="@drawable/pedido"
+        android:contentDescription="Redireccion para ver mi pedido"
         android:title="@string/opc1" />
     <item
         android:id="@+id/menu_contact"
         android:icon="@drawable/wspp"
+        android:contentDescription="Redireccion al chat de Whatsapp de la empresa"
         android:iconTint="@color/verde"
         android:title="@string/opc2" />
     <item
         android:id="@+id/menu_logout"
         android:icon="@drawable/leave"
+        android:contentDescription="Cerrar sesión"
         android:title="@string/opc3" />
 </menu>
