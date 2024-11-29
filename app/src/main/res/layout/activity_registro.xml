@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.RegistroActivity"
+    android:contentDescription="Pantalla de registro de usuario en la aplicación Mochica"
     android:background="@drawable/foreground_gradient">
 
     <!-- Logo del Mochica -->
@@ -15,6 +16,7 @@
         android:layout_height="100dp"
         android:layout_marginTop="60dp"
         android:src="@drawable/log_mochica"
+        android:contentDescription="Logotipo de la aplicación Mochica"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -48,6 +50,7 @@
                 android:gravity="center"
                 android:text="@string/registrate_form"
                 android:textColor="@color/black"
+                android:contentDescription="Formulario de registro"
                 android:textSize="27sp" />
 
             <!-- Campo Nombre linea 65:solo texto -->
@@ -62,6 +65,7 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:maxLines="1"
+                android:contentDescription="Introduzca su nombre en el siguiente campo"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéíóúÁÉÍÓÚñÑ "
                 android:autofillHints="name"/>
 
@@ -77,6 +81,7 @@
                 android:maxLength="9"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:contentDescription="Introduzca un numero de teléfono en el siguiente campo"
                 android:autofillHints="phone"/>
 
             <!-- Campo DNI -->
@@ -91,6 +96,7 @@
                 android:inputType="number"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:contentDescription="Introduzca un Numero de Documento de identidad en el siguiente campo"
                 android:autofillHints="DNI"/>
 
             <!-- Campo Correo Electrónico -->
@@ -104,6 +110,7 @@
                 android:inputType="textEmailAddress"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:contentDescription="Introduzca una Dirección de correo electrónico en el siguiente campo"
                 android:autofillHints="emailAddress" />
 
             <!-- Campo Contraseña -->
@@ -117,6 +124,7 @@
                 android:inputType="textPassword"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:contentDescription="Introduzca una contraseña en el siguiente campo"
                 android:autofillHints="password"/>
 
             <!-- Botón Registrar Datos -->
@@ -132,6 +140,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="20sp"
+                android:contentDescription="Botón para registrar la información ingresada"
                 app:layout_constraintWidth_percent="0.7" />
 
             <!-- Texto para iniciar sesión dentro del CardView -->
@@ -143,6 +152,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/brown"
+                android:contentDescription="Si ya tienes una cuenta, puedes iniciar sesión"
                 android:textSize="17sp" />
 
         </LinearLayout>
