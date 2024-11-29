@@ -3,9 +3,12 @@ package com.upao.elmochicaapp.ui
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -115,6 +118,8 @@ class MyOrderActivity : BaseActivity() {
                     } else {
                         // Si ya pasó el tiempo, actualizamos el estado de la orden
                         updateOrderStatus(orderId)
+                        // Cambiar el color y el ícono de Evaluación cuando pasen los 5 minutos
+                        updateEvaluationStatus()
                         // Eliminar la hora de inicio de SharedPreferences para evitar conflictos
                         removeStartTimeFromSharedPrefs(orderId)
                     }
@@ -126,6 +131,16 @@ class MyOrderActivity : BaseActivity() {
         }
     }
 
+    private fun updateEvaluationStatus() {
+        // Cambiar el color de fondo del FrameLayout de evaluación
+        val evaluationFrame = findViewById<FrameLayout>(R.id.evaluation_frame)
+        evaluationFrame.setBackgroundResource(R.drawable.circle_background_brown) // Usa el fondo circular marrón
+
+        // Cambiar el ícono de la evaluación
+        val evaluationIcon = findViewById<ImageView>(R.id.evaluation_icon)
+        evaluationIcon.setImageResource(R.drawable.check) // Coloca aquí el nuevo ícono
+    }
+
     private fun updateTimeTextView(timeRemaining: Int) {
         val minutes = timeRemaining / 60
         val seconds = timeRemaining % 60
@@ -134,7 +149,7 @@ class MyOrderActivity : BaseActivity() {
 
     private fun calculateRemainingTime(startTime: Long): Int {
         val elapsedTime = System.currentTimeMillis() - startTime  // Tiempo transcurrido desde el inicio en milisegundos
-        val timeRemaining = (5 * 60 * 1000 - elapsedTime) / 1000  // Calculamos el tiempo restante en segundos
+        val timeRemaining = (1 * 60 * 1000 - elapsedTime) / 1000  // Calculamos el tiempo restante en segundos
 
         return if (timeRemaining > 0) {
             timeRemaining.toInt()  // Si todavía queda tiempo

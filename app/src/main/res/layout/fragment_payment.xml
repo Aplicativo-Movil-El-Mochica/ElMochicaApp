@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView
-    android:id="@+id/pago_panel"
+    android:id="@+id/sdkFragmentContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="40dp"

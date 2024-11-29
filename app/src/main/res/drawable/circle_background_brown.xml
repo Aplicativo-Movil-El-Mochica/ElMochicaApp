@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Fondo del círculo -->
-    <solid android:color="@color/plomo2" /> <!-- Aquí puedes poner el color de fondo que desees -->
+    <solid android:color="@color/brown" /> <!-- Aquí puedes poner el color de fondo que desees -->
 
     <!-- Borde negro -->
     <stroke
