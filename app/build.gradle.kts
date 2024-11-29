@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation("com.github.skydoves:balloon:1.3.6")
     implementation("androidx.viewpager2:viewpager2:1.1.0")
+    implementation("androidx.work:work-runtime-ktx:2.7.1")
 
     // Material Components para TabLayout
     implementation("com.google.android.material:material:1.9.0")

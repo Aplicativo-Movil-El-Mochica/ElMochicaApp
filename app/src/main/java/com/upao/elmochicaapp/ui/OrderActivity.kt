@@ -1,10 +1,12 @@
 package com.upao.elmochicaapp.ui
 
 import android.content.Context
+import android.content.Intent
 
 import android.os.Build
 import android.os.Bundle
-import android.view.View
+import android.util.Log
+import java.time.LocalDate
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -14,15 +16,20 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
 import com.upao.elmochicaapp.R
 import com.upao.elmochicaapp.api.apiClient.ApiClient
-import com.upao.elmochicaapp.com.upao.elmochicaapp.ui.PaymentFragment
 import com.upao.elmochicaapp.models.CartProduct
+import com.upao.elmochicaapp.models.requestModels.EmailDTO
+import com.upao.elmochicaapp.models.requestModels.PedidoItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @AndroidEntryPoint
 class OrderActivity : AppCompatActivity(){
@@ -95,11 +102,15 @@ class OrderActivity : AppCompatActivity(){
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupConfirmButton() {
-        confirmButton.setOnClickListener { validateAndStartPayment() }
+        confirmButton.setOnClickListener {
+            lifecycleScope.launch {
+            validateAndStartPayment() // Llama a la función suspend desde una coroutine
+        } }
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun validateAndStartPayment() {
+    private suspend fun validateAndStartPayment() {
         val userId = getUserId() ?: run {
             Toast.makeText(this, "ID de usuario no encontrado. Inicia sesión nuevamente.", Toast.LENGTH_SHORT).show()
             return
@@ -113,6 +124,42 @@ class OrderActivity : AppCompatActivity(){
             return
         }
 
+        val fechaPedido = LocalDate.now().toString()
+
+        val emailDTO = EmailDTO(
+            nombre = getName() ?: "Nombre desconocido",   // Reemplazar con el nombre real del usuario
+            dni = getUserDni().toString(),       // Reemplazar con el DNI real del usuario
+            tipoPedido = if (radioGroupTipoPedido.checkedRadioButtonId == R.id.radio_recojo) "Recojo en restaurante" else "Delivery a domicilio",
+            direccion = address,
+            fechaPedido = fechaPedido,  // Reemplazar con la fecha actual o la que corresponda
+            resumenPedido = loadProductsFromCart(),  // Aquí puedes obtener el resumen de los productos del carrito
+            total = getTotalAmount(userId).toInt(),  // Calcula el total
+            destinatario = getCorreo() ?: "juan089207@gmail.com"  // Reemplazar con el correo del destinatario
+        )
+
+        Log.d("OrderActivity", "Email por enviar: ${emailDTO}")
+
+        val token = "Bearer " + getJwtToken()  // Asegúrate de que el token esté configurado correctamente
+        Log.d("OrderActivity", "JWT: ${token}")
+
+        lifecycleScope.launch {
+            try {
+                    val response = ApiClient.apiService.sendVoucher(token = token, emailDTO = emailDTO)
+                    if (response.isSuccessful) {
+                        Log.d("OrderActivity", "Voucher enviado con éxito")
+                        Toast.makeText(this@OrderActivity, "Voucher enviado con éxito", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@OrderActivity, MyOrderActivity::class.java)
+                        startActivity(intent)
+                    } else if (response.code() == 403) {
+                        Toast.makeText(this@OrderActivity, "Error al registrar usuario", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@OrderActivity, "Error al registrar usuario", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Toast.makeText(this@OrderActivity, "Error en la conexión: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun loadPaymentFragment() {
@@ -144,14 +191,25 @@ class OrderActivity : AppCompatActivity(){
         }
     }
 
-    private fun loadProductsFromCart() {
+    private fun loadProductsFromCart() : List<PedidoItem> {
         val userId = getUserId()
+        val pedidoItems = mutableListOf<PedidoItem>()
         if (userId != null) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val response = ApiClient.apiService3.getCartProducts(userId)
                     if (response.isSuccessful) {
                         val cartProducts = response.body() ?: emptyList()
+
+                        // Convertir cada producto del carrito a PedidoItem
+                        cartProducts.forEach { product ->
+                            val pedidoItem = PedidoItem(
+                                nombre = product.productName,  // Nombre del producto
+                                cantidad = product.amount,     // Cantidad del producto
+                                precio = product.priceUnit * product.amount  // Precio total del producto
+                            )
+                            pedidoItems.add(pedidoItem)
+                        }
 
                         withContext(Dispatchers.Main) {
                             updateProductsContainer(cartProducts)
@@ -170,6 +228,8 @@ class OrderActivity : AppCompatActivity(){
         } else {
             Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
         }
+
+        return pedidoItems
     }
 
     private fun updateProductsContainer(products: List<CartProduct>) {
@@ -239,5 +299,29 @@ class OrderActivity : AppCompatActivity(){
     protected fun getUserId(): String? {
         val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         return sharedPref.getString("USER_ID", null)
+    }
+
+    private fun getJwtToken(): String? {
+        // Implementa la lógica para obtener el JWT almacenado en SharedPreferences
+        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        return sharedPreferences.getString("JWT_TOKEN", null)
+    }
+
+    private fun getName(): String? {
+        // Implementa la lógica para obtener el JWT almacenado en SharedPreferences
+        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        return sharedPreferences.getString("NAME", null)
+    }
+
+    private fun getCorreo(): String? {
+        // Implementa la lógica para obtener el JWT almacenado en SharedPreferences
+        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        return sharedPreferences.getString("CORREO", null)
+    }
+
+    private fun getUserDni(): Int {
+        // Devuelve el DNI del usuario almacenado
+        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        return sharedPreferences.getInt("USER_DNI", 0)
     }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fondo del círculo -->
+    <solid android:color="@color/plomo" /> <!-- Aquí puedes poner el color de fondo que desees -->
+
+    <!-- Borde negro -->
+    <stroke
+        android:color="@color/brown"
+        android:width="0.5dp" /> <!-- Ancho del borde, puedes ajustarlo según tus necesidades -->
+
+    <!-- Tamaño del círculo -->
+    <size android:width="60dp" android:height="60dp" /> <!-- El tamaño del círculo -->
+
+    <!-- Bordes redondeados para hacer el círculo -->
+    <corners android:radius="30dp" /> <!-- Radio para hacer el círculo -->
+</shape>

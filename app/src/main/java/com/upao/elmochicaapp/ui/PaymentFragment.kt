@@ -1,4 +1,5 @@
-package com.upao.elmochicaapp.com.upao.elmochicaapp.ui
+package com.upao.elmochicaapp.ui
+
 
 import android.os.Build
 import android.os.Bundle
@@ -34,7 +35,7 @@ class PaymentFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflar el diseño del fragmento
+        // Inflar el diseño del fragmentoa
         return inflater.inflate(R.layout.fragment_payment, container, false)
     }
 
@@ -126,7 +127,6 @@ class PaymentFragment : Fragment() {
     }
 
     private fun loadPaymentForm(formToken: String) {
-
         val publicKey = "60242485:testpublickey_4tAGI3LtHLJjV4rPLvFDg4jT4PnUvh0vKatUPWz7ApxZM" // Reemplaza con tu clave pública
         val htmlData = """
     <!DOCTYPE html>
@@ -137,7 +137,6 @@ class PaymentFragment : Fragment() {
             src="https://static.micuentaweb.pe/static/js/krypton-client/V4.0/stable/kr-payment-form.min.js"
             kr-public-key="$publicKey"
             kr-form-token="$formToken"
-            kr-hide-payment-types="REGISTER"> <!-- Este cambio oculta el botón de pago -->
         </script>
         <link rel="stylesheet" href="https://static.micuentaweb.pe/static/js/krypton-client/V4.0/ext/neon-reset.css">
         <style>
@@ -157,11 +156,7 @@ class PaymentFragment : Fragment() {
         </style>
     </head>
     <body>
-        <div class="kr-embedded" kr-form-token="$formToken">
-            <!-- El botón de pago no se mostrará debido al estilo anterior -->
-            <button class="kr-payment-button"></button>
-            
-        </div>
+        <div class="kr-embedded" kr-form-token="$formToken"></div>
     </body>
     </html>
     """.trimIndent()

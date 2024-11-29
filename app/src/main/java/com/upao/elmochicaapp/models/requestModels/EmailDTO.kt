@@ -2,7 +2,6 @@ package com.upao.elmochicaapp.models.requestModels
 
 data class EmailDTO(
     val nombre: String,
-    val cc: String,
     val dni: String,
     val tipoPedido: String,
     val direccion: String,

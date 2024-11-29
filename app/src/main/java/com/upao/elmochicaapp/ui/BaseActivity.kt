@@ -120,6 +120,9 @@ open class BaseActivity : AppCompatActivity() {
                         if (userResponse != null) {
                             val userName = userResponse.name
                             val userId = userResponse.id
+
+
+
                             callback(userName, userId)
                         } else {
                             Toast.makeText(this@BaseActivity, "Respuesta vacía al obtener el usuario", Toast.LENGTH_SHORT).show()

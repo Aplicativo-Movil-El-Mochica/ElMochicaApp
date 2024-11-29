@@ -1,14 +1,18 @@
 package com.upao.elmochicaapp.api.apiEndpoints
 
 import com.upao.elmochicaapp.models.CartProduct
+import com.upao.elmochicaapp.models.Order
 import com.upao.elmochicaapp.models.Product
 import com.upao.elmochicaapp.models.User
 import com.upao.elmochicaapp.models.requestModels.AddressRequest
 import com.upao.elmochicaapp.models.requestModels.CartItemRequest
+import com.upao.elmochicaapp.models.requestModels.EmailDTO
 import com.upao.elmochicaapp.models.requestModels.FormtokenRequest
 import com.upao.elmochicaapp.models.requestModels.LoginRequest
 import com.upao.elmochicaapp.models.requestModels.ModifyCartRequest
 import com.upao.elmochicaapp.models.responseModels.LoginResponse
+import com.upao.elmochicaapp.models.OrderDetail
+import com.upao.elmochicaapp.models.requestModels.StatusRequest
 import com.upao.elmochicaapp.models.responseModels.UserResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -67,6 +71,26 @@ interface ApiService {
 
     @POST("/api/payment/formtoken")
     suspend fun getFormToken(@Body request: FormtokenRequest): Response<Map<String, String>>
+
+    @POST("user/sendVoucher")
+    suspend fun sendVoucher(
+        @Header("Authorization") token: String,
+        @Body emailDTO: EmailDTO
+    ): Response<Void>
+
+    @GET("/api/payment/obtenerOrder/{userId}")
+    suspend fun getOrder(@Path("userId") userId: String): Response<List<Order>>
+
+    @PUT("/api/payment/actualizarCounter/{orderId}")
+    suspend fun actualizarCounter(
+        @Path("orderId") orderId: String,
+    ): Response<Boolean>
+
+    @PUT("/api/payment/actualizarStatus/{orderId}")
+    suspend fun actualizarStatus(
+        @Path("orderId") orderId: String,
+        @Body statusbody: StatusRequest
+    ): Response<Boolean>
 
 
 }

@@ -9,6 +9,7 @@ import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -132,7 +133,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun saveTokenAndDni(token: String, dni: Int, email: String) {
-        println("Almacenando DNI: $dni")
+        Log.d("LoginActivity", "JWT: ${token}")
         val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("JWT_TOKEN", token)
